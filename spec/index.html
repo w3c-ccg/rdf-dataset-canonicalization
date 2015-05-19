@@ -659,16 +659,48 @@ function updateExample(doc, content) {
         will be a <tref>hash</tref> and the <tref>identifier issuer</tref> used
         to help generate it.</p>
 
-    <p class="issue">In URGNA2012, the <i>position</i> parameter passed to
-      the <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>
-      was instead modeled as a <i>direction</i> parameter, where it could have
-      the value <code>p</code>, for property, when the related blank node was a
-      `subject` and the value <code>r</code>, for reverse or reference, when
-      the related blank node was an `object`. Since URGNA2012 only normalized
-      graphs, not datasets, there was no use of the `graph` position.</p>
+      <p class="issue">In URGNA2012, the <i>position</i> parameter passed to
+        the <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>
+        was instead modeled as a <i>direction</i> parameter, where it could have
+        the value <code>p</code>, for property, when the related blank node was a
+        `subject` and the value <code>r</code>, for reverse or reference, when
+        the related blank node was an `object`. Since URGNA2012 only normalized
+        graphs, not datasets, there was no use of the `graph` position.</p>
+
+      <div class="issue">In URGNA2012, building the
+        <i>hash to related blank nodes map</i> was done as follows:
+        <ol class="algorithm">
+          <li>For each <i>quad</i> in <i>quads</i>:
+            <ol class="algorithm">
+              <li>If the <i>quad</i>'s `subject` is a blank node that does not
+                match <i>identifier</i>, to the result of the
+                  <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>,
+                  passing the <tref>RDF blank node identifier</tref> for
+                  `subject` as <i>related</i>, <i>quad</i>,
+                  <i>path identifier issuer</i> as <i>issuer</i>, and
+                  <code>p</code> as <i>position</i>.
+              </li>
+              <li>Otherwise, if <i>quad</i>'s `object` is a blank node that does
+                not match <i>identifier</i>, to the result of the
+                  <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>,
+                  passing the <tref>RDF blank node identifier</tref> for
+                  `object` as <i>related</i>, <i>quad</i>,
+                  <i>path identifier issuer</i> as <i>issuer</i>, and
+                  <code>r</code> as <i>position</i>.
+              </li>
+              <li>Otherwise, continue to the next quad.</li>
+              <li>Add a mapping of <i>hash</i> to the
+                <tref>RDF blank node identifier</tref> for the component
+                that matched (`subject` or `object`) to
+                <i>hash to related blank nodes map</i>, adding an entry
+                as necessary.</li>
+            </ol>
+          </li>
+        </ol>
+      </div>
 
       <ol class="algorithm">
-        <li>Create an <i>hash to related blank nodes map</i> for storing
+        <li>Create a <i>hash to related blank nodes map</i> for storing
           hashes that identify related <tref>RDF blank node</tref>s.</li>
         <li>Get a reference, <i>quads</i>, to the list of <tref>RDF quad</tref>s
           in the <tref>blank node to quads map</tref> for the key
@@ -692,7 +724,7 @@ function updateExample(doc, content) {
                   <tref>RDF graph name</tref>, respectively.</li>
                 <li>Add a mapping of <i>hash</i> to the
                   <tref>RDF blank node identifier</tref> for <i>component</i>
-                  <i>hash to related blank nodes map</i>, adding an entry
+                  to <i>hash to related blank nodes map</i>, adding an entry
                   as necessary.</li>
               </ol>
             </li>
