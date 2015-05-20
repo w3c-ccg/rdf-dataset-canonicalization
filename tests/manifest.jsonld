@@ -11,7 +11,7 @@
   },
   "id": "",
   "type": "mf:Manifest",
-  "label": "CSVW Test Cases",
+  "label": "RDF Dataset Normalization Test Cases",
   "comment": "Includes manifests for different application profiles.",
   "include": ["manifest-urdn2012", "manifest-urdn2015"]
 }

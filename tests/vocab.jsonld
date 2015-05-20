@@ -26,7 +26,7 @@
       "dc:creator": "Gregg Kellogg",
       "dc:date": "2015-05-19",
       "dc:description": "\n    This is a vocabulary document used to define classes and properties used in\n    [RDF Dataset Normalization Test Cases](http://json-ld.github.io/normalization/tests/) and associated test manifests.\n  ",
-      "dc:identifier": "http://w3c.github.io/csvw/tests/vocab#",
+      "dc:identifier": "http://json-ld.github.io/normalization/tests/vocab#",
       "dc:publisher": "W3C Credentials Community Group",
       "dc:title": "RDF Dataset Normalization Test Vocabulary",
       "rdfs:comment": "This is a vocabulary document used to define classes and properties used in [RDF Dataset Normalization Test Cases](http://json-ld.github.io/normalization/tests/) and associated test manifests."
