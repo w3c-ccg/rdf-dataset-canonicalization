@@ -201,24 +201,26 @@ function updateExample(doc, content) {
 
     <ul>
       <li>Technical discussion typically occurs on the public mailing list:
-        <a href="http://lists.w3.org/Archives/Public/public-linked-json/">public-linked-json@w3.org</a></li>
+        <a href="http://lists.w3.org/Archives/Public/public-credentials/">public-credentials@w3.org</a></li>
 
       <li><a href="http://json-ld.org/minutes/">Public teleconferences</a> are
         held on Tuesdays at 1500UTC on the second and fourth week of each
         month.</li>
 
       <li>Specification bugs and issues should be reported in the
-        <a href="https://github.com/json-ld/json-ld.org/issues">issue tracker</a>.</li>
+        <a href="https://github.com/json-ld/normalization/issues">issue tracker</a>.</li>
 
-      <li><a href="https://github.com/json-ld/json-ld.org/tree/master/spec">Source code</a> for the
+      <li><a href="https://github.com/json-ld/normalization/tree/master/spec">Source code</a> for the
         specification can be found on Github.</li>
 
-      <li>The <a href="http://webchat.freenode.net/?channels=#json-ld">#json-ld</a>
+      <li>The <a href="http://webchat.freenode.net/?channels=#credentials">#credentials</a>
         IRC channel is available for real-time discussion on
         <a href="irc.freenode.net">irc.freenode.net.</a></li>
     </ul>
   </section>
 </section>
+
+<section id="conformance"></section>
 
 <section class="normative">
   <h1>Terminology</h1>
@@ -231,43 +233,43 @@ function updateExample(doc, content) {
         A string is a sequence of zero or more Unicode characters.</dd>
       <dt><code>true</code> and <code>false</code></dt><dd>
         Values that are used to express one of two possible boolean states.</dd>
-      <dt><dfn><abbr title="Internationalized Resource Identifier">IRI</abbr></dfn></dt>
+      <dt><dfn><abbr title="Internationalized Resource Identifier"><dfn>IRI</dfn></abbr></dt>
       <dd>An <a>IRI</a> (Internationalized Resource Identifier) is a string that conforms to the syntax
         defined in [[RFC3987]].</dd>
       <dt><dfn>subject</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-subject" class="externalDFN">subject</a>
-        as specified by [[RDF11-CONCEPTS]].</dd>
+        as specified by [[!RDF11-CONCEPTS]].</dd>
       <dt><dfn>predicate</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-predicate" class="externalDFN">predicate</a>
-        as specified by [[RDF11-CONCEPTS]].</dd>
+        as specified by [[!RDF11-CONCEPTS]].</dd>
       <dt><dfn>object</dfn></dt>
       <dd>An <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-object" class="externalDFN">object</a>
-        as specified by [[RDF11-CONCEPTS]].</dd>
+        as specified by [[!RDF11-CONCEPTS]].</dd>
       <dt><dfn>RDF triple</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-triple" class="externalDFN">triple</a>
-        as specified by [[RDF11-CONCEPTS]].</dd>
+        as specified by [[!RDF11-CONCEPTS]].</dd>
       <dt><dfn>RDF graph</dfn></dt>
       <dd>An <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-graph" class="externalDFN">RDF graph</a>
-        as specified by [[RDF11-CONCEPTS]].</dd>
+        as specified by [[!RDF11-CONCEPTS]].</dd>
       <dt><dfn>graph name</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-graph-name" class="externalDFN">graph name</a>
-        as specified by [[RDF11-CONCEPTS]].</dd>
+        as specified by [[!RDF11-CONCEPTS]].</dd>
       <dt><dfn>quad</dfn></dt>
       <dd>A tuple composed of <a>subject</a>, <a>predicate</a>, <a>object</a>, and <a>graph name</a>.
         This is a generalization of an <a>RDF triple</a> along with a <a>graph name</a>.</dd>
       <dt><dfn>RDF dataset</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-dataset" class="externalDFN">dataset</a>
-        as specified by [[RDF11-CONCEPTS]].
+        as specified by [[!RDF11-CONCEPTS]].
         For the purposes of this specification, an <a>RDF dataset</a>
         is considered to be a set of <a title="quad">quads</a></dd>
       <dt><dfn>blank node</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-blank-node" class="externalDFN">blank node</a>
-        as specified by [[RDF11-CONCEPTS]]. In short, it is a node in a graph that is
+        as specified by [[!RDF11-CONCEPTS]]. In short, it is a node in a graph that is
         neither an <a>IRI</a>, nor a
         <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-literal" class="externalDFN">literal</a>.</dd>
       <dt><dfn>blank node identifier</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-blank-node-identifier" class="externalDFN">blank node identifier</a>
-        as specified by [[RDF11-CONCEPTS]]. In short, it is a <a>string</a> that begins
+        as specified by [[!RDF11-CONCEPTS]]. In short, it is a <a>string</a> that begins
         with <code>_:</code> that is used as an identifier for an
         <a>blank node</a>. <a title="blank node identifier">Blank node identifiers</a>
         are typically implementation-specific local identifiers; this document
@@ -289,10 +291,16 @@ function updateExample(doc, content) {
     can be difficult to do when some of the nodes do not. Any nodes without
     globally-unique identifiers must be issued deteriministic identifiers.</p>
 
+  <p class="ednote">Strictly speaking, the normalized dataset must be serialized to be stable, as within a dataset, blank node identifiers have no meaning.</p>
+
   <p>In time, there may be more than one normalization algorithm and,
     therefore, for identification purposes, this algorithm is named the
     "Universal RDF Dataset Normalization Algorithm 2015"
-    (<dfn><abbr title="Universal RDF Dataset Normalization Algorithm 2015">URDNA2015</abbr></dfn>).</p>
+    (<abbr title="Universal RDF Dataset Normalization Algorithm 2015"><dfn>URDNA2015</dfn></abbr>).</p>
+
+  <p class="ednote">This statement is overly prescriptive and does not include normative language.
+    This spec should describe the theoretical basis for graph normalization and describe
+    behavior using normative statements. The explicit algorithms should follow as an informative appendix.</p>
 
   <section>
     <h1>Normalization Algorithm Terms</h1>
@@ -335,6 +343,18 @@ function updateExample(doc, content) {
       <dd>An <a>identifier issuer</a>, initialized with the
         prefix <code>_:c14n</code>, for issuing canonical
         <a title="blank node identifier">blank node identifiers</a>.
+        <div class="issue">
+          Mapping all <a title="blank node">blank nodes</a> to use this
+          identifier spec means that an <a>RDF dataset</a> composed of two
+          different <a title="rdf graph">RDF graphs</a> will use different
+          identifiers then that for the graphs taken independently. This may
+          happen anyway, due to <a
+          href="http://en.wikipedia.org/wiki/Automorphism">automorphisms</a>,
+          or overlapping statements, but an identifier based on the resulting
+          <a>hash</a> along with an issue sequence number specific to that <a>hash</a> would
+          stand a better chance of surviving such minor changes, and allow the
+          resulting information to be useful for <a href="https://www.w3.org/2001/sw/wiki/How_to_diff_RDF">RDF Diff</a>.
+        </div>
       </dd>
     </dl>
   </section>
@@ -380,7 +400,7 @@ function updateExample(doc, content) {
       deterministic identifiers to any <a title="blank node">blank nodes</a> in the
       <a>input dataset</a>.</p>
 
-    <p class="issue">Documenting the algorithm is a WIP, various steps will
+    <p class="ednote">Documenting the algorithm is a WIP, various steps will
       become more detailed in time.</p>
 
     <section class="informative">
@@ -537,7 +557,7 @@ function updateExample(doc, content) {
   <section>
     <h2>Hash First Degree Quads</h2>
 
-    <p class="issue">Add note that it is safe to cache the result of
+    <p class="ednote">Add note that it is safe to cache the result of
       hashing the quads for later reuse (to reduce unnecessary computation).</p>
 
     <section class="informative">
@@ -549,11 +569,6 @@ function updateExample(doc, content) {
 
       <p>This algorithm takes the <a>normalization state</a> and a
         <dfn>reference blank node identifier</dfn> as inputs.</p>
-
-      <p class="issue">In URGNA2012, if any blank node was used in the `graph`
-        position in the <a>quad</a>, then the value was serialized using
-        the special <a>blank node identifier</a>, <code>_:g</code>.
-      </p>
 
       <ol class="algorithm">
         <li>Initialize <dfn>nquads</dfn> to an empty list. It will be
@@ -607,10 +622,6 @@ function updateExample(doc, content) {
         <a>identifier issuer</a>, <var>issuer</var>, and a
         <a>string</a> <var>position</var> as inputs.</p>
 
-      <p class="issue">In URGNA2012, value of the <a>predicate</a>
-        was not delimited by <code>&lt;</code> and <code>&gt;</code>; there
-        were no delimiters.</p>
-
       <ol class="algorithm">
         <li>Set the <var>identifier</var> to use for <var>related</var>, preferring
           first the canonical identifier for <var>related</var> if issued, second
@@ -634,11 +645,11 @@ function updateExample(doc, content) {
   <section>
     <h2>Hash N-Degree Quads</h2>
 
-    <p class="issue">The relationship and difference between this algorithm
+    <p class="ednote">The relationship and difference between this algorithm
       and the hash first degree quads algorithm should be better explained.
       There may also be better names for the two algorithms.</p>
 
-    <p class="issue">The 'path' terminology could also be changed to better
+    <p class="ednote">The 'path' terminology could also be changed to better
       indicate what a path is (a particular deterministic serialization for
       a subgraph/subdataset of nodes without globally-unique identifiers).</p>
 
@@ -681,46 +692,6 @@ function updateExample(doc, content) {
         <a>blank node identifier</a>s. The output from this algorithm
         will be a <a>hash</a> and the <a>identifier issuer</a> used
         to help generate it.</p>
-
-      <p class="issue">In URGNA2012, the <var>position</var> parameter passed to
-        the <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>
-        was instead modeled as a <var>direction</var> parameter, where it could have
-        the value <code>p</code>, for property, when the related blank node was a
-        <a>subject</a> and the value <code>r</code>, for reverse or reference, when
-        the related blank node was an <a>object</a>. Since URGNA2012 only normalized
-        graphs, not datasets, there was no use of the `graph` position.</p>
-
-      <div class="issue">In URGNA2012, building the
-        <var>hash to related blank nodes map</var> was done as follows:
-        <ol class="algorithm">
-          <li>For each <var>quad</var> in <var>quads</var>:
-            <ol class="algorithm">
-              <li>If the <var>quad</var>'s <a>subject</a> is a <a>blank node</a> that does not
-                match <var>identifier</var>, to the result of the
-                  <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>,
-                  passing the <a>blank node identifier</a> for
-                  <a>subject</a> as <var>related</var>, <var>quad</var>,
-                  <var>path identifier issuer</var> as <var>issuer</var>, and
-                  <code>p</code> as <var>position</var>.
-              </li>
-              <li>Otherwise, if <var>quad</var>'s <a>object</a> is a <a>blank node</a> that does
-                not match <var>identifier</var>, to the result of the
-                  <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>,
-                  passing the <a>blank node identifier</a> for
-                  <a>object</a> as <var>related</var>, <var>quad</var>,
-                  <var>path identifier issuer</var> as <var>issuer</var>, and
-                  <code>r</code> as <var>position</var>.
-              </li>
-              <li>Otherwise, continue to the next quad.</li>
-              <li>Add a mapping of <var>hash</var> to the
-                <a>blank node identifier</a> for the component
-                that matched (<a>subject</a> or <a>object</a>) to
-                <var>hash to related blank nodes map</var>, adding an entry
-                as necessary.</li>
-            </ol>
-          </li>
-        </ol>
-      </div>
 
       <ol class="algorithm">
         <li>Create a <var>hash to related blank nodes map</var> for storing
@@ -830,6 +801,71 @@ function updateExample(doc, content) {
       </ol>
     </section>
   </section>
+</section>
+
+<section>
+  <h2>Use Cases</h2>
+  <p class="ednote">TBD</p>
+</section>
+
+<section>
+  <h2>Examples</h2>
+  <p class="ednote">TBD</p>
+</section>
+
+<section class="appendix">
+  <h1>URGNA2012</h1>
+  <p>A previous version of this algorithm has light deployment. For purposes of identification,
+    the algorithm is called the
+    "Universal RDF Graph Normalization Algorithm 2012"
+    (<abbr title="Universal RDF Graph Normalization Algorithm 2012"><dfn>URGNA2012</dfn></abbr>),
+    and differs from the stated algorithm in the following ways:</p>
+  <ul>
+    <li>In <a href="#hash-first-degree-quads" class="sectionRef"></a>, if any blank node was used in the <a>graph name</a>
+      position in the <a>quad</a>, then the value was serialized using
+      the special <a>blank node identifier</a>, <code>_:g</code>, instead of <code>_:z</code>.</li>
+    <li>In <a href="#hash-related-blank-node" class="sectionRef"></a>, value of the <a>predicate</a>
+      was not delimited by <code>&lt;</code> and <code>&gt;</code>; there
+      were no delimiters.</li>
+    <li>In <a href="#hash-n-degree-quads" class="sectionRef"></a>, the <var>position</var> parameter passed to
+      the <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>
+      was instead modeled as a <var>direction</var> parameter, where it could have
+      the value <code>p</code>, for property, when the related blank node was a
+      <a>subject</a> and the value <code>r</code>, for reverse or reference, when
+      the related blank node was an <a>object</a>. Since URGNA2012 only normalized
+      graphs, not datasets, there was no use of the <a>graph name</a> position.</li>
+    <li>In <a href="#hash-n-degree-quads" class="sectionRef"></a>, building the
+      <var>hash to related blank nodes map</var> was done as follows:
+      <ol class="algorithm">
+        <li>For each <var>quad</var> in <var>quads</var>:
+          <ol class="algorithm">
+            <li>If the <var>quad</var>'s <a>subject</a> is a <a>blank node</a> that does not
+              match <var>identifier</var>, to the result of the
+                <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>,
+                passing the <a>blank node identifier</a> for
+                <a>subject</a> as <var>related</var>, <var>quad</var>,
+                <var>path identifier issuer</var> as <var>issuer</var>, and
+                <code>p</code> as <var>position</var>.
+            </li>
+            <li>Otherwise, if <var>quad</var>'s <a>object</a> is a <a>blank node</a> that does
+              not match <var>identifier</var>, to the result of the
+                <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>,
+                passing the <a>blank node identifier</a> for
+                <a>object</a> as <var>related</var>, <var>quad</var>,
+                <var>path identifier issuer</var> as <var>issuer</var>, and
+                <code>r</code> as <var>position</var>.
+            </li>
+            <li>Otherwise, continue to the next quad.</li>
+            <li>Add a mapping of <var>hash</var> to the
+              <a>blank node identifier</a> for the component
+              that matched (<a>subject</a> or <a>object</a>) to
+              <var>hash to related blank nodes map</var>, adding an entry
+              as necessary.</li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ul>
 </section>
 
 <section class="appendix">
