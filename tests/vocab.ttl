@@ -37,15 +37,15 @@
     where the result of running the test is serialized to canonical N-Quads, lexicographically-sorted.
   """ .
 
-:Urdna2012EvalTest a rdfs:Class;
-  rdfs:label "URDNA2012 Evaluation Test";
+:Urgna2012EvalTest a rdfs:Class;
+  rdfs:label "URGNA2012 Evaluation Test";
   rdfs:subClassOf :Test;
   rdfs:comment """
-    Normalization performed using the URDNA2012 algorithm.
+    Normalization performed using the URGNA2012 algorithm.
   """ .
 
 :Urdna2015EvalTest a rdfs:Class;
-  rdfs:label "Positive Evaluation Test";
+  rdfs:label "URDNA2015 Evaluation Test";
   rdfs:subClassOf :Test;
   rdfs:comment """
     Normalization performed using the URDNA2015 algorithm.

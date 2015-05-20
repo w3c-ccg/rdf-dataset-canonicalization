@@ -49,7 +49,7 @@
     %h1{property: "rdfs:label"}<= man['label']
     %p{property: "rdfs:comment"}<= man['comment']
     :markdown
-      This page describes RDF Dataset Normalization tests for URDNA2012 and URDNA2015 profiles. These tests are also described in [JSON-LD](manifest.jsonld) and [Turtle](manifest.ttl) formats for convenience. The manifest vocabulary is described in the [RDF Dataset Normalization Test Vocabulary](vocab.html) ([JSON-LD](vocab.jsonld), [Turtle](vocab.ttl)) and is based on the [RDF Test Vocabulary](http://www.w3.org/TR/2014/NOTE-rdf11-testcases-20140225/).
+      This page describes RDF Dataset Normalization tests for URGNA2012 and URDNA2015 profiles. These tests are also described in [JSON-LD](manifest.jsonld) and [Turtle](manifest.ttl) formats for convenience. The manifest vocabulary is described in the [RDF Dataset Normalization Test Vocabulary](vocab.html) ([JSON-LD](vocab.jsonld), [Turtle](vocab.ttl)) and is based on the [RDF Test Vocabulary](http://www.w3.org/TR/2014/NOTE-rdf11-testcases-20140225/).
 
       ## General instructions for running the RDF Dataset Normalization Test suites
       FIXME
@@ -76,8 +76,8 @@
         %h2<= "#{man['label']} (#{man['entries'].count} entries)"
         %p{property: "rdfs:comment"}<= man['comment']
         %p
-          - if id =~/urdna2012/
-            Instructions specific to running URDNA2012 tests.
+          - if id =~/urgna2012/
+            Instructions specific to running URGNA2012 tests.
           - elsif id =~ /urdna2016/
             Instructions specific to running URDNA2015 tests.
         %dl.test-description

@@ -42,17 +42,17 @@
       ]
     },
     {
-      "@id": "rdfn:Urdna2012EvalTest",
-      "@type": "rdfs:Class",
-      "rdfs:comment": "Normalization performed using the URDNA2012 algorithm.",
-      "rdfs:label": "URDNA2012 Evaluation Test",
-      "rdfs:subClassOf": "rdfn:Test"
-    },
-    {
       "@id": "rdfn:Urdna2015EvalTest",
       "@type": "rdfs:Class",
       "rdfs:comment": "Normalization performed using the URDNA2015 algorithm.",
-      "rdfs:label": "Positive Evaluation Test",
+      "rdfs:label": "URDNA2015 Evaluation Test",
+      "rdfs:subClassOf": "rdfn:Test"
+    },
+    {
+      "@id": "rdfn:Urgna2012EvalTest",
+      "@type": "rdfs:Class",
+      "rdfs:comment": "Normalization performed using the URGNA2012 algorithm.",
+      "rdfs:label": "URGNA2012 Evaluation Test",
       "rdfs:subClassOf": "rdfn:Test"
     }
   ]

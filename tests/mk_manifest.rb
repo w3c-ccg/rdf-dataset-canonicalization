@@ -17,15 +17,15 @@ class Manifest
   )
 
   TITLE = {
-    urdna2012: "RDF Graph Normalization (URDNA2012)",
+    urgna2012: "RDF Graph Normalization (URGNA2012)",
     urdna2015: "RDF Dataset Normalization (URDNA2015)",
   }
   DESCRIPTION = {
-    urdna2012: "Tests the 2012 version of RDF Graph Normalization.",
+    urgna2012: "Tests the 2012 version of RDF Graph Normalization.",
     urdna2015: "Tests the 2015 version of RDF Dataset Normalization."
   }
 
-  Test = Struct.new(:id, :name, :comment, :approval, :action, :urdna2012, :urdna2015)
+  Test = Struct.new(:id, :name, :comment, :approval, :action, :urgna2012, :urdna2015)
 
   attr_accessor :tests
 
@@ -40,17 +40,17 @@ class Manifest
       # Create entry as object indexed by symbolized column name
       line.each_with_index {|v, i| entry[columns[i]] = v ? v.gsub("\r", "\n").gsub("\\", "\\\\") : nil}
 
-      urdna2012 = "#{entry[:test]}-urdna2012.nq" if entry[:urdna2012] == "TRUE"
+      urgna2012 = "#{entry[:test]}-urgna2012.nq" if entry[:urgna2012] == "TRUE"
       urdna2015 = "#{entry[:test]}-urdna2015.nq" if entry[:urdna2015] == "TRUE"
       Test.new(entry[:test], entry[:name], entry[:comment], entry[:approval],
-               "#{entry[:test]}-in.nq", urdna2012, urdna2015)
+               "#{entry[:test]}-in.nq", urgna2012, urdna2015)
     end
   end
 
   # Create files referenced in the manifest
   def create_files
     tests.each do |test|
-      files = [test.action, test.urdna2012, test.urdna2015].compact
+      files = [test.action, test.urgna2012, test.urdna2015].compact
       files.compact.select {|f| !File.exist?(f)}.each do |f|
         File.open(f, "w") {|io| io.puts( f.end_with?('.json') ? "{}" : "")}
       end
@@ -59,7 +59,7 @@ class Manifest
 
   def test_class(test, variant)
     case variant.to_sym
-    when :urdna2012 then "rdfn:Urdna2012EvalTest"
+    when :urgna2012 then "rdfn:Urgna2012EvalTest"
     when :urdna2015 then "rdfn:Urdna2015EvalTest"
     end
   end
@@ -135,7 +135,7 @@ class Manifest
 ## 3. http://www.w3.org/2004/10/27-testcases
 ##
 ## Test types
-## * rdfn:Urdna2012EvalTest  - Normalization using URDNA2012
+## * rdfn:Urgna2012EvalTest  - Normalization using URGNA2012
 ## * rdfn:Urdna2015EvalTest  - Normalization using URDNA2015
 
 @prefix : <manifest-#{variant}#> .

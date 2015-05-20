@@ -8,7 +8,7 @@
 ## 3. http://www.w3.org/2004/10/27-testcases
 ##
 ## Test types
-## * rdfn:Urdna2012EvalTest  - Normalization using URDNA2012
+## * rdfn:Urgna2012EvalTest  - Normalization using URGNA2012
 ## * rdfn:Urdna2015EvalTest  - Normalization using URDNA2015
 
 @prefix : <manifest-urdna2015#> .
