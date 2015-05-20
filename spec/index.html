@@ -536,6 +536,11 @@ function updateExample(doc, content) {
       <p>This algorithm takes the <tref>normalization state</tref> and a
         <tdef>reference blank node identifier</tdef> as inputs.</p>
 
+      <p class="issue">In URGNA2012, if any blank node was used in the `graph`
+        position in the <i>quad</i>, then the value was serialized using
+        the special <tref>RDF blank node identifier</tref>, <code>_:g</code>.
+      </p>
+
       <ol class="algorithm">
         <li>Initialize <tdef>nquads</tdef> to an empty list. It will be
           used to store quads in N-Quads format.</li>
