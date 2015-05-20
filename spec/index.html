@@ -753,12 +753,16 @@ function updateExample(doc, content) {
                   <ol class="algorithm">
                     <li>If a canonical identifier has been issued for
                       <i>related</i>, append it to <i>path</i>.</li>
-                    <li>Otherwise, if <i>issuer copy</i> has not issued
-                      an identifier for <i>related</i>, append <i>related</i>
-                      to <i>recursion list</i>. Use the
-                      <a href="#issue-identifier">Issue Identifier algorithm</a>,
-                      passing <i>issuer copy</i> and <i>related</i> and
-                      append the result to <i>path</i>.
+                    <li>Otherwise:</li>
+                      <ol class="algorithm">
+                        <li>If <i>issuer copy</i> has not issued
+                          an identifier for <i>related</i>, append
+                          <i>related</i> to <i>recursion list</i>.</li>
+                        <li>Use the
+                          <a href="#issue-identifier">Issue Identifier algorithm</a>,
+                          passing <i>issuer copy</i> and <i>related</i> and
+                          append the result to <i>path</i>.</li>
+                      </ol>
                     </li>
                     <li>If <i>chosen path</i> is not empty and the length
                       of <i>path</i> is greater than or equal to the length
