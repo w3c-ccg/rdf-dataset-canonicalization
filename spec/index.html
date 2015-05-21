@@ -110,6 +110,7 @@ function updateExample(doc, content) {
     counter-increment: numsection;
     content: counters(numsection, ".") ") ";
   }
+  a.externalDFN {border-bottom:  1px solid #99c; font-style: italic;}
 </style>
 </head>
 
@@ -120,7 +121,7 @@ function updateExample(doc, content) {
     of information. At times, it becomes necessary to compare the differences
     between sets of graphs, digitally sign them, or generate short identifiers
     for graphs via hashing algorithms. This document outlines an algorithm for
-    normalizing <tref>RDF dataset</tref>s such that these operations can be
+    normalizing <a title="rdf dataset">RDF datasets</a> such that these operations can be
     performed.</p>
 </section>
 
@@ -149,15 +150,15 @@ function updateExample(doc, content) {
     verification.</p>
 
   <p>In particular, this specification is about normalizing
-    <tref>RDF dataset</tref>s, which are collections of graphs. Since
+    <a title="rdf dataset">RDF datasets</a>, which are collections of graphs. Since
     a directed graph can express the same information in more than one
     way, it requires normalization to achieve the aforementioned goals
     and any others that may arise via surrendipity.</p>
 
-  <p>Most <tref>RDF dataset</tref> can be normalized fairly quickly, in terms
+  <p>Most <a title="rdf dataset">RDF datasets</a> can be normalized fairly quickly, in terms
     of algorithmic time complexity. However, those that contain nodes that do
     not have globally unique identifiers pose a greater challenge. Normalizing
-    these datasets presents the <tdef>graph isomorphism</tdef> problem, a
+    these datasets presents the <dfn>graph isomorphism</dfn> problem, a
     problem that is believed to be difficult to solve quickly. More formally,
     it is believed to be an NP-Intermediate problem, that is, neither known to
     be solvable in polynomial time nor NP-complete. Fortunately, existing real
@@ -167,7 +168,7 @@ function updateExample(doc, content) {
     service attack, rather than a real input, and abort.</p>
 
   <p>This document outlines an algorithm for generating a normalized
-    <tref>RDF dataset</tref> given an <tref>RDF dataset</tref> as input. The
+    <a>RDF dataset</a> given an <a>RDF dataset</a> as input. The
     algorithm is called the
     <strong>Universal RDF Dataset Normalization Algorithm 2015</strong> or
     <strong>URDNA2015</strong>.</p>
@@ -175,12 +176,12 @@ function updateExample(doc, content) {
   <section>
     <h2>How to Read this Document</h2>
 
-    <p>This document is a detailed specification for an <tref>RDF dataset</tref>
+    <p>This document is a detailed specification for an <a>RDF dataset</a>
       normalization algorithm. The document is primarily intended for the
       following audiences:</p>
 
     <ul>
-      <li>Software developers that want to implement an <tref>RDF dataset</tref>
+      <li>Software developers that want to implement an <a>RDF dataset</a>
         normalization algorithm.</li>
       <li>Masochists.</li>
     </ul>
@@ -200,24 +201,26 @@ function updateExample(doc, content) {
 
     <ul>
       <li>Technical discussion typically occurs on the public mailing list:
-        <a href="http://lists.w3.org/Archives/Public/public-linked-json/">public-linked-json@w3.org</a></li>
+        <a href="http://lists.w3.org/Archives/Public/public-credentials/">public-credentials@w3.org</a></li>
 
       <li><a href="http://json-ld.org/minutes/">Public teleconferences</a> are
         held on Tuesdays at 1500UTC on the second and fourth week of each
         month.</li>
 
       <li>Specification bugs and issues should be reported in the
-        <a href="https://github.com/json-ld/json-ld.org/issues">issue tracker</a>.</li>
+        <a href="https://github.com/json-ld/normalization/issues">issue tracker</a>.</li>
 
-      <li><a href="https://github.com/json-ld/json-ld.org/tree/master/spec">Source code</a> for the
+      <li><a href="https://github.com/json-ld/normalization/tree/master/spec">Source code</a> for the
         specification can be found on Github.</li>
 
-      <li>The <a href="http://webchat.freenode.net/?channels=#json-ld">#json-ld</a>
+      <li>The <a href="http://webchat.freenode.net/?channels=#credentials">#credentials</a>
         IRC channel is available for real-time discussion on
         <a href="irc.freenode.net">irc.freenode.net.</a></li>
     </ul>
   </section>
 </section>
+
+<section id="conformance"></section>
 
 <section class="normative">
   <h1>Terminology</h1>
@@ -226,46 +229,49 @@ function updateExample(doc, content) {
     <h2>General Terminology</h2>
 
     <dl>
-      <dt><tdef>string</tdef></dt><dd>
+      <dt><dfn>string</dfn></dt><dd>
         A string is a sequence of zero or more Unicode characters.</dd>
-      <dt><tdef>true</tdef> and <tdef>false</tdef></dt><dd>
+      <dt><code>true</code> and <code>false</code></dt><dd>
         Values that are used to express one of two possible boolean states.</dd>
-      <dt><tdef><abbr title="Internationalized Resource Identifier">IRI</abbr></tdef></dt>
-      <dd>An <tref>IRI</tref> (Internationalized Resource Identifier) is a string that conforms to the syntax
+      <dt><dfn><abbr title="Internationalized Resource Identifier"><dfn>IRI</dfn></abbr></dt>
+      <dd>An <a>IRI</a> (Internationalized Resource Identifier) is a string that conforms to the syntax
         defined in [[RFC3987]].</dd>
-      <dt><tdef>RDF subject</tdef></dt>
-      <dd>A <tref href="http://www.w3.org/TR/rdf11-concepts/#dfn-subject">subject</tref>
-        as specified by [[RDF11-CONCEPTS]].</dd>
-      <dt><tdef>RDF predicate</tdef></dt>
-      <dd>A <tref href="http://www.w3.org/TR/rdf11-concepts/#dfn-predicate">predicate</tref>
-        as specified by [[RDF11-CONCEPTS]].</dd>
-      <dt><tdef>RDF object</tdef></dt>
-      <dd>An <tref href="http://www.w3.org/TR/rdf11-concepts/#dfn-object">object</tref>
-        as specified by [[RDF11-CONCEPTS]].</dd>
-      <dt><tdef>RDF triple</tdef></dt>
-      <dd>A <tref href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-triple">triple</tref>
-        as specified by [[RDF11-CONCEPTS]].</dd>
-      <dt><tdef>RDF graph</tdef></dt>
-      <dd>An <tref href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-graph">RDF graph</tref>
-        as specified by [[RDF11-CONCEPTS]].</dd>
-      <dt><tdef>RDF graph name</tdef></dt>
-      <dd>A <tref href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-dataset">graph name</tref>
-        as specified by [[RDF11-CONCEPTS]].</dd>
-      <dt><tdef>RDF quad</tdef></dt>
-      <dd>The pairing of an <tref>RDF triple</tref> with an <tref>RDF graph name</tref>.</dd>
-      <dt><tdef>RDF dataset</tdef></dt>
-      <dd>A <tref href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-dataset">dataset</tref>
-        as specified by [[RDF11-CONCEPTS]].</dd>
-      <dt><tdef>RDF blank node</tdef></dt>
-      <dd>A <tref href="http://www.w3.org/TR/rdf11-concepts/#section-blank-nodes">blank node</tref>
-        as specified by [[RDF11-CONCEPTS]]. In short, it is a node in a graph that is
-        neither an <tref>IRI</tref>, nor a
-        <tref href="http://www.w3.org/TR/rdf11-concepts/#dfn-literal">literal</tref>.</dd>
-      <dt><tdef>RDF blank node identifier</tdef></dt>
-      <dd>A <tref href="http://www.w3.org/TR/rdf11-concepts/#dfn-blank-node-identifier">blank node identifier</tref>
-        as specified by [[RDF11-CONCEPTS]]. In short, it is a string that begins
+      <dt><dfn>subject</dfn></dt>
+      <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-subject" class="externalDFN">subject</a>
+        as specified by [[!RDF11-CONCEPTS]].</dd>
+      <dt><dfn>predicate</dfn></dt>
+      <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-predicate" class="externalDFN">predicate</a>
+        as specified by [[!RDF11-CONCEPTS]].</dd>
+      <dt><dfn>object</dfn></dt>
+      <dd>An <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-object" class="externalDFN">object</a>
+        as specified by [[!RDF11-CONCEPTS]].</dd>
+      <dt><dfn>RDF triple</dfn></dt>
+      <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-triple" class="externalDFN">triple</a>
+        as specified by [[!RDF11-CONCEPTS]].</dd>
+      <dt><dfn>RDF graph</dfn></dt>
+      <dd>An <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-graph" class="externalDFN">RDF graph</a>
+        as specified by [[!RDF11-CONCEPTS]].</dd>
+      <dt><dfn>graph name</dfn></dt>
+      <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-graph-name" class="externalDFN">graph name</a>
+        as specified by [[!RDF11-CONCEPTS]].</dd>
+      <dt><dfn>quad</dfn></dt>
+      <dd>A tuple composed of <a>subject</a>, <a>predicate</a>, <a>object</a>, and <a>graph name</a>.
+        This is a generalization of an <a>RDF triple</a> along with a <a>graph name</a>.</dd>
+      <dt><dfn>RDF dataset</dfn></dt>
+      <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-dataset" class="externalDFN">dataset</a>
+        as specified by [[!RDF11-CONCEPTS]].
+        For the purposes of this specification, an <a>RDF dataset</a>
+        is considered to be a set of <a title="quad">quads</a></dd>
+      <dt><dfn>blank node</dfn></dt>
+      <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-blank-node" class="externalDFN">blank node</a>
+        as specified by [[!RDF11-CONCEPTS]]. In short, it is a node in a graph that is
+        neither an <a>IRI</a>, nor a
+        <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-literal" class="externalDFN">literal</a>.</dd>
+      <dt><dfn>blank node identifier</dfn></dt>
+      <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-blank-node-identifier" class="externalDFN">blank node identifier</a>
+        as specified by [[!RDF11-CONCEPTS]]. In short, it is a <a>string</a> that begins
         with <code>_:</code> that is used as an identifier for an
-        <tref>RDF blank node</tref>. <tref>RDF blank node identifier</tref>s
+        <a>blank node</a>. <a title="blank node identifier">Blank node identifiers</a>
         are typically implementation-specific local identifiers; this document
         specifies an algorithm for deterministically specifying them.</dd>
     </dl>
@@ -276,37 +282,43 @@ function updateExample(doc, content) {
   <h1>Normalization</h1>
 
   <p>Normalization is the process of transforming an
-    <tref>input RDF dataset</tref> to a <tref>normalized RDF dataset</tref>. That
-    is, any two <tref>input RDF dataset</tref>s that contain the same
+    <a>input dataset</a> to a <a>normalized dataset</a>. That
+    is, any two <a title="input dataset">input datasets</a> that contain the same
     information, regardless of their arrangement, will be transformed into
-    identical <tref>normalized RDF dataset</tref>s. The problem requires directed
+    identical <a>normalized dataset</a>. The problem requires directed
     graphs to be deterministically ordered into sets of nodes and edges. This
     is easy to do when all of the nodes have globally-unique identifiers, but
     can be difficult to do when some of the nodes do not. Any nodes without
     globally-unique identifiers must be issued deteriministic identifiers.</p>
 
+  <p class="ednote">Strictly speaking, the normalized dataset must be serialized to be stable, as within a dataset, blank node identifiers have no meaning.</p>
+
   <p>In time, there may be more than one normalization algorithm and,
     therefore, for identification purposes, this algorithm is named the
     "Universal RDF Dataset Normalization Algorithm 2015"
-    (<abbr title="Universal RDF Dataset Normalization Algorithm 2015">URDNA2015</abbr>).</p>
+    (<abbr title="Universal RDF Dataset Normalization Algorithm 2015"><dfn>URDNA2015</dfn></abbr>).</p>
+
+  <p class="ednote">This statement is overly prescriptive and does not include normative language.
+    This spec should describe the theoretical basis for graph normalization and describe
+    behavior using normative statements. The explicit algorithms should follow as an informative appendix.</p>
 
   <section>
     <h1>Normalization Algorithm Terms</h1>
     <dl>
-      <dt><tdef>input RDF dataset</tdef></dt>
-      <dd>The abstract <tref>RDF dataset</tref> that is provided as input to
+      <dt><dfn>input dataset</dfn></dt>
+      <dd>The abstract <a>RDF dataset</a> that is provided as input to
         the algorithm.</dd>
-      <dt><tdef>normalized RDF dataset</tdef></dt>
-      <dd>The abstract <tref>RDF dataset</tref> and normalized
-        <tref>RDF blank node identifier</tref>s that are produced as output by
+      <dt><dfn>normalized dataset</dfn></dt>
+      <dd>The abstract <a>RDF dataset</a> and normalized
+        <a>blank node identifier</a> that are produced as output by
         the algorithm.</dd>
-      <dt><tdef>identifier issuer</tdef></dt>
-      <dd>An identifier issuer is used to issue new <tref>RDF blank node identifier</tref>s. It
+      <dt><dfn>identifier issuer</dfn></dt>
+      <dd>An identifier issuer is used to issue new <a>blank node identifier</a>. It
         maintains a
         <a href="#blank-node-identifier-issuer-state">blank node identifier issuer state</a>.</dd>
-      <dt><tdef>hash</tdef></dt>
+      <dt><dfn>hash</dfn></dt>
       <dd>The lowercase, hexadecimal representation of a message digest.</dd>
-      <dt><tdef>hash algorithm</tdef></dt>
+      <dt><dfn>hash algorithm</dfn></dt>
       <dd>The hash algorithm used by URDNA2015, namely, SHA-256.</dd>
     </dl>
   </section>
@@ -316,21 +328,33 @@ function updateExample(doc, content) {
 
     <p>When performing the steps required by the normalization algorithm,
       it is helpful to track state in a data structure called the
-      <tdef>normalization state</tdef>. The information contained in the
-      <tref>normalization state</tref> is described below.</p>
+      <dfn>normalization state</dfn>. The information contained in the
+      <a>normalization state</a> is described below.</p>
 
     <dl>
-      <dt><tdef>blank node to quads map</tdef></dt>
-      <dd>A data structure that maps <tref>RDF blank node identifier</tref>s to
-        the <tref>RDF quad</tref>s in which they appear in the
-        <tref>input RDF dataset</tref>.</dd>
-      <dt><tdef>hash to blank nodes map</tdef></dt>
-      <dd>A data structure that maps a <tref>hash</tref> to a list of
-        <tref>RDF blank node identifier</tref>s.</dd>
-      <dt><tdef>canonical issuer</tdef></dt>
-      <dd>An <tref>identifier issuer</tref>, initialized with the
+      <dt><dfn>blank node to quads map</dfn></dt>
+      <dd>A data structure that maps a <a>blank node identifier</a> to
+        the <a title="quad">quads</a> in which they appear in the
+        <a>input dataset</a>.</dd>
+      <dt><dfn>hash to blank nodes map</dfn></dt>
+      <dd>A data structure that maps a <a>hash</a> to a list of
+        <a title="blank node identifier">blank node identifiers</a>.</dd>
+      <dt><dfn>canonical issuer</dfn></dt>
+      <dd>An <a>identifier issuer</a>, initialized with the
         prefix <code>_:c14n</code>, for issuing canonical
-        <tref>RDF blank node identifier</tref>s.
+        <a title="blank node identifier">blank node identifiers</a>.
+        <div class="issue">
+          Mapping all <a title="blank node">blank nodes</a> to use this
+          identifier spec means that an <a>RDF dataset</a> composed of two
+          different <a title="rdf graph">RDF graphs</a> will use different
+          identifiers then that for the graphs taken independently. This may
+          happen anyway, due to <a
+          href="http://en.wikipedia.org/wiki/Automorphism">automorphisms</a>,
+          or overlapping statements, but an identifier based on the resulting
+          <a>hash</a> along with an issue sequence number specific to that <a>hash</a> would
+          stand a better chance of surviving such minor changes, and allow the
+          resulting information to be useful for <a href="https://www.w3.org/2001/sw/wiki/How_to_diff_RDF">RDF Diff</a>.
+        </div>
       </dd>
     </dl>
   </section>
@@ -339,31 +363,31 @@ function updateExample(doc, content) {
     <h1>Blank Node Identifier Issuer State</h1>
 
     <p>During the normalization algorithm, it is sometimes necessary to
-      issue new identifiers to <tref>RDF blank node</tref>s. The
+      issue new identifiers to <a title="blank node">blank nodes</a>. The
       <a href="#issue-identifier-algorithm">Issue Identifier algorithm</a> uses an
-      <tref>identifier issuer</tref> to accomplish this task. The information
-      an <tref>identifier issuer</tref> needs to keep track of is described
+      <a>identifier issuer</a> to accomplish this task. The information
+      an <a>identifier issuer</a> needs to keep track of is described
       below.</p>
 
     <dl>
-      <dt><tdef>identifier prefix</tdef></dt>
+      <dt><dfn>identifier prefix</dfn></dt>
       <dd>The identifier prefix is a string that is used at the beginning of an
-        <tref>RDF blank node identifier</tref>. It should be initialized to a
+        <a>blank node identifier</a>. It should be initialized to a
         string that is specified by the normalization algorithm. When
-        generating a new <tref>RDF blank node identifier</tref>, the prefix
-        is concatenated with a <tref>identifier counter</tref>. For example,
+        generating a new <a>blank node identifier</a>, the prefix
+        is concatenated with a <a>identifier counter</a>. For example,
         <code>_:c14n</code> is a proper initial value for the
-        <tref>identifier prefix</tref> that would produce
-        <tref>RDF blank node identifier</tref>s like <code>_:c14n1</code>.</dd>
-      <dt><tdef>identifier counter</tdef></dt>
-      <dd>A counter that is appended to the <tref>identifier prefix</tref> to
-        create an <tref>RDF blank node identifier</tref>. It is initialized to
+        <a>identifier prefix</a> that would produce
+        <a title="blank node identifier">blank node identifiers</a> like <code>_:c14n1</code>.</dd>
+      <dt><dfn>identifier counter</dfn></dt>
+      <dd>A counter that is appended to the <a>identifier prefix</a> to
+        create an <a>blank node identifier</a>. It is initialized to
         <code>0</code>.</dd>
-      <dt><tdef>issued identifiers list</tdef></dt>
+      <dt><dfn>issued identifiers list</dfn></dt>
       <dd>A list that tracks previously issued identifiers in the order in
         which they were issued. It also tracks the existing identifier that
         triggered the issuance, to prevent issuing more than one new identifier
-        per existing identifier, and to allow <tref>RDF blank node</tref>s to
+        per existing identifier, and to allow <a title="blank node">blank nodes</a> to
         be reassigned identifiers some time after issuance.</dd>
     </dl>
   </section>
@@ -371,12 +395,12 @@ function updateExample(doc, content) {
   <section>
     <h2>Normalization Algorithm</h2>
 
-    <p>The normalization algorithm converts an <tref>input RDF dataset</tref>
-      into a <tref>normalized RDF dataset</tref>. This algorithm will assign
-      deterministic identifiers to any <tref>RDF blank node</tref>s in the
-      <tref>input RDF dataset</tref>.</p>
+    <p>The normalization algorithm converts an <a>input dataset</a>
+      into a <a>normalized dataset</a>. This algorithm will assign
+      deterministic identifiers to any <a title="blank node">blank nodes</a> in the
+      <a>input dataset</a>.</p>
 
-    <p class="issue">Documenting the algorithm is a WIP, various steps will
+    <p class="ednote">Documenting the algorithm is a WIP, various steps will
       become more detailed in time.</p>
 
     <section class="informative">
@@ -387,111 +411,111 @@ function updateExample(doc, content) {
       <h3>Algorithm</h3>
 
       <ol class="algorithm">
-        <li>Create the <tref>normalization state</tref>.</li>
-        <li>For every <tref>RDF quad</tref> in <tref>input RDF dataset</tref>:
+        <li>Create the <a>normalization state</a>.</li>
+        <li>For every <a>quad</a> in <a>input dataset</a>:
           <ol class="algorithm">
-            <li>For each <tref>RDF blank node</tref> that occurs in the
-              <tref>RDF quad</tref>, add a reference to the
-              <tref>RDF quad</tref> using the
-              <tref>RDF blank node identifier</tref> in the
-              <tref>blank node to quads map</tref>, creating a new entry if
+            <li>For each <a>blank node</a> that occurs in the
+              <a>quad</a>, add a reference to the
+              <a>quad</a> using the
+              <a>blank node identifier</a> in the
+              <a>blank node to quads map</a>, creating a new entry if
               necessary.
             </li>
           </ol>
         </li>
-        <li>Create a list of non-normalized <tref>blank node identifier</tref>s
-          <i>non-normalized identifiers</i> and populate it using the keys
-          from the <tref>blank node to quads map</tref>.</li>
-        <li>Initialize <i>simple</i>, a boolean flag, to
+        <li>Create a list of non-normalized <a title="blank node identifier">blank node identifiers</a>
+          <var>non-normalized identifiers</var> and populate it using the keys
+          from the <a>blank node to quads map</a>.</li>
+        <li>Initialize <var>simple</var>, a boolean flag, to
           <code>true</code>.</li>
-        <li>While <i>simple</i> is <code>true</code>,
-          issue canonical identifiers for <tref>RDF blank node</tref>s:</li>
+        <li>While <var>simple</var> is <code>true</code>,
+          issue canonical identifiers for <a title="blank node">blank nodes</a>:</li>
           <ol class="algorithm">
-            <li>Set <i>simple</i> to <code>false</code>.</li>
-            <li>Clear <tref>hash to blank nodes map</tref>.</li>
-            <li>For each <tref>RDF blank node identifier</tref>
-              <i>identifier</i> in <i>non-normalized identifiers</i>:</li>
+            <li>Set <var>simple</var> to <code>false</code>.</li>
+            <li>Clear <a>hash to blank nodes map</a>.</li>
+            <li>For each <a>blank node identifier</a>
+              <var>identifier</var> in <var>non-normalized identifiers</var>:</li>
               <ol class="algorithm">
-                <li>Create a <tref>hash</tref>, <i>hash</i>, according to the
+                <li>Create a <a>hash</a>, <var>hash</var>, according to the
                   <a href="#hash-first-degree-quads">Hash First Degree Quads algorithm</a>.</li>
-                <li>Add <i>hash</i> and <i>identifier</i> to
-                  <tref>hash to blank nodes map</tref>, creating a new entry if
+                <li>Add <var>hash</var> and <var>identifier</var> to
+                  <a>hash to blank nodes map</a>, creating a new entry if
                   necessary.</li>
               </ol>
-            <li>For each <i>hash</i> to <i>identifier list</i> mapping in
-              <tref>hash to blank nodes map</tref>, lexicographically-sorted by
-              <i>hash</i>:
+            <li>For each <var>hash</var> to <var>identifier list</var> mapping in
+              <a>hash to blank nodes map</a>, lexicographically-sorted by
+              <var>hash</var>:
               <ol class="algorithm">
-                <li>If the length of <i>identifier list</i> is greater than
+                <li>If the length of <var>identifier list</var> is greater than
                   <code>1</code>, continue to the next mapping.</li>
                 <li>Use the
                   <a href="#issue-identifier">Issue Identifier algorithm</a>,
-                  passing <tref>canonical issuer</tref> and the
-                  single <tref>RDF blank node identifier</tref> in
-                  <i>identifier list</i>, <i>identifier</i>, to issue a
-                  canonical replacment identifier for <i>identifier</i>.</li>
-                <li>Remove <i>identifier</i> from
-                  <i>non-normalized identifiers</i>.</li>
-                <li>Remove <i>hash</i> from the
-                  <tref>hash to blank nodes map</tref>.</li>
-                <li>Set <i>simple</i> to <code>true</code>.</li>
+                  passing <a>canonical issuer</a> and the
+                  single <a>blank node identifier</a> in
+                  <var>identifier list</var>, <var>identifier</var>, to issue a
+                  canonical replacment identifier for <var>identifier</var>.</li>
+                <li>Remove <var>identifier</var> from
+                  <var>non-normalized identifiers</var>.</li>
+                <li>Remove <var>hash</var> from the
+                  <a>hash to blank nodes map</a>.</li>
+                <li>Set <var>simple</var> to <code>true</code>.</li>
               </ol>
             </li>
           </ol>
         </li>
-        <li>For each <i>hash</i> to <i>identifier list</i> mapping in
-          <tref>hash to blank nodes map</tref>, lexicographically-sorted by
-          <i>hash</i>:
+        <li>For each <var>hash</var> to <var>identifier list</var> mapping in
+          <a>hash to blank nodes map</a>, lexicographically-sorted by
+          <var>hash</var>:
           <ol class="algorithm">
-            <li>Create <i>hash path list</i> where each item will be a result
+            <li>Create <var>hash path list</var> where each item will be a result
               of running the
               <a href="#hash-n-degree-quads">Hash N-Degree Quads algorithm</a>.</li>
-            <li>For each <tref>RDF blank node identifier</tref>
-              <i>identifier</i> in <i>identifier list</i>:</li>
+            <li>For each <a>blank node identifier</a>
+              <var>identifier</var> in <var>identifier list</var>:</li>
               <ol class="algorithm">
                 <li>If a canonical identifier has already been issued for
-                  <i>identifier</i>, continue to the next
-                  <i>identifier</i>.</li>
-                <li>Create <i>temporary issuer</i>, an
-                  <tref>identifier issuer</tref> initialized with the prefix
+                  <var>identifier</var>, continue to the next
+                  <var>identifier</var>.</li>
+                <li>Create <var>temporary issuer</var>, an
+                  <a>identifier issuer</a> initialized with the prefix
                   <code>_:b</code>.</li>
                 <li>Use the
                   <a href="#issue-identifier">Issue Identifier algorithm</a>,
-                  passing <i>temporary issuer</i> and <i>identifier</i>, to
-                  issue a new temporary <tref>RDF blank node identifier</tref>
-                  for <i>identifier</i>.</li>
+                  passing <var>temporary issuer</var> and <var>identifier</var>, to
+                  issue a new temporary <a>blank node identifier</a>
+                  for <var>identifier</var>.</li>
                 <li>Run the
                   <a href="#hash-n-degree-quads">Hash N-Degree Quads algorithm</a>,
-                  passing <i>temporary issuer</i>, and append the
-                  result to the <i>hash path list</i>.</li>
+                  passing <var>temporary issuer</var>, and append the
+                  result to the <var>hash path list</var>.</li>
               </ol>
             </li>
-            <li>For each <i>result</i> in the <i>hash path list</i>,
-              lexicographically-sorted by the <i>hash</i> in <i>result</i>:</li>
+            <li>For each <var>result</var> in the <var>hash path list</var>,
+              lexicographically-sorted by the <var>hash</var> in <var>result</var>:</li>
               <ol class="algorithm">
-                <li>For each <tref>RDF blank node identifier</tref>,
-                  <i>existing identifier</i>, that was issued a temporary
-                  identifier by <i>identifier issuer</i> in <i>result</i>, issue
+                <li>For each <a>blank node identifier</a>,
+                  <var>existing identifier</var>, that was issued a temporary
+                  identifier by <var>identifier issuer</var> in <var>result</var>, issue
                   a canonical identifier, in the same order, using the
                   <a href="#issue-identifier">Issue Identifier algorithm</a>,
-                  passing <tref>canonical issuer</tref> and
-                  <i>existing identifier</i>.
+                  passing <a>canonical issuer</a> and
+                  <var>existing identifier</var>.
               </ol>
             </li>
           </ol>
         </li>
-        <li>For each <tref>RDF quad</tref>, <i>quad</i>, in
-          <tref>input RDF dataset</tref>:
+        <li>For each <a>quad</a>, <var>quad</var>, in
+          <a>input dataset</a>:
           <ol class="algorithm">
-            <li>Create a copy, <i>quad copy</i>, of <i>quad</i> and replace any
-              existing <tref>RDF blank node identifier</tref>s using the
+            <li>Create a copy, <var>quad copy</var>, of <var>quad</var> and replace any
+              existing <a>blank node identifier</a>s using the
               canonical identifiers previously issued
-              by <tref>canonical issuer</tref>.</li>
-            <li>Add <i>quad copy</i> to the
-              <tref>normalized RDF dataset</tref>.</li>
+              by <a>canonical issuer</a>.</li>
+            <li>Add <var>quad copy</var> to the
+              <a>normalized dataset</a>.</li>
           </ol>
         </li>
-        <li>Return the <tref>normalized RDF dataset</tref>.</li>
+        <li>Return the <a>normalized dataset</a>.</li>
       </ol>
     </section>
   </section>
@@ -507,33 +531,33 @@ function updateExample(doc, content) {
       <h3>Algorithm</h3>
     </section>
 
-    <p>This algorithm issues a new <tref>RDF blank node identifier</tref> for
-      a given existing <tref>RDF blank node identifier</tref>. It also updates
+    <p>This algorithm issues a new <a>blank node identifier</a> for
+      a given existing <a>blank node identifier</a>. It also updates
       state information that tracks the order in which new
-      <tref>RDF blank node identifier</tref>s were issued.</p>
+      <a title="blank node identifier">blank node identifiers</a> were issued.</p>
 
-    <p>This algorithm takes an <tref>identifier issuer</tref> and an
-      <i>existing identifier</i> as inputs. The output is a new
-      <i>issued identifier</i>. The steps of the algorithm are:</p>
+    <p>This algorithm takes an <a>identifier issuer</a> and an
+      <var>existing identifier</var> as inputs. The output is a new
+      <var>issued identifier</var>. The steps of the algorithm are:</p>
 
     <ol class="algorithm">
       <li>If there is already an issued identifier for
-        <i>existing identifier</i> in <tref>issued identifiers list</tref>,
+        <var>existing identifier</var> in <a>issued identifiers list</a>,
         return it.</li>
-      <li>Generate <i>issued identifier</i> by concatenating
-        <tref>identifier prefix</tref> with the string value of
-        <tref>identifier counter</tref>.</li>
-      <li>Append an item to <tref>issued identifiers list</tref> that maps
-        <i>existing identifier</i> to <i>issued identifier</i>.</li>
-      <li>Increment <tref>identifier counter</tref>.</li>
-      <li>Return <i>issued identifier</i>.</li>
+      <li>Generate <var>issued identifier</var> by concatenating
+        <a>identifier prefix</a> with the string value of
+        <a>identifier counter</a>.</li>
+      <li>Append an item to <a>issued identifiers list</a> that maps
+        <var>existing identifier</var> to <var>issued identifier</var>.</li>
+      <li>Increment <a>identifier counter</a>.</li>
+      <li>Return <var>issued identifier</var>.</li>
     </ol>
   </section>
 
   <section>
     <h2>Hash First Degree Quads</h2>
 
-    <p class="issue">Add note that it is safe to cache the result of
+    <p class="ednote">Add note that it is safe to cache the result of
       hashing the quads for later reuse (to reduce unnecessary computation).</p>
 
     <section class="informative">
@@ -543,34 +567,29 @@ function updateExample(doc, content) {
     <section>
       <h3>Algorithm</h3>
 
-      <p>This algorithm takes the <tref>normalization state</tref> and a
-        <tdef>reference blank node identifier</tdef> as inputs.</p>
-
-      <p class="issue">In URGNA2012, if any blank node was used in the `graph`
-        position in the <i>quad</i>, then the value was serialized using
-        the special <tref>RDF blank node identifier</tref>, <code>_:g</code>.
-      </p>
+      <p>This algorithm takes the <a>normalization state</a> and a
+        <dfn>reference blank node identifier</dfn> as inputs.</p>
 
       <ol class="algorithm">
-        <li>Initialize <tdef>nquads</tdef> to an empty list. It will be
+        <li>Initialize <dfn>nquads</dfn> to an empty list. It will be
           used to store quads in N-Quads format.</li>
-        <li>Get the list of quads <i>quads</i> associated with the
-          <tref>reference blank node identifier</tref> in the
-          <tref>blank node to quads map</tref>.</li>
-        <li>For each <tref>RDF quad</tref> <i>quad</i> in <i>quads</i>:
+        <li>Get the list of <a title="quad">quads</a> <var>quads</var> associated with the
+          <a>reference blank node identifier</a> in the
+          <a>blank node to quads map</a>.</li>
+        <li>For each <a>quad</a> <var>quad</var> in <var>quads</var>:
           <ol class="algorithm">
-            <li>Serialize the <tref>RDF quad</tref> in N-Quads format with the
+            <li>Serialize the <a>quad</a> in N-Quads format with the
               following special rule:
               <ol class="algorithm">
-                <li>If any component in <i>quad</i> is an
-                  <tref>RDF blank node</tref>, then serialize it using a
+                <li>If any component in <var>quad</var> is an
+                  <a>blank node</a>, then serialize it using a
                   special identifier as follows:
                   <ol class="algorithm">
-                    <li>If the <tref>blank node</tref>'s existing
-                    <tref>RDF blank node identifier</tref> matches the
-                    <tref>reference blank node identifier</tref> then use the
-                    <tref>RDF blank node identifier</tref> <code>_:a</code>,
-                    otherwise, use the <tref>RDF blank node identifier</tref>
+                    <li>If the <a title="blank node">blank node</a>'s existing
+                    <a>blank node identifier</a> matches the
+                    <a>reference blank node identifier</a> then use the
+                    <a>blank node identifier</a> <code>_:a</code>,
+                    otherwise, use the <a>blank node identifier</a>
                     <code>_:z</code>.</li>
                   </ol>
                 </li>
@@ -578,10 +597,10 @@ function updateExample(doc, content) {
             </li>
           </ol>
         </li>
-        <li>Sort <tref>nquads</tref> in lexicographical order.</li>
-        <li>Return the <tref>hash</tref> that results from passing the sorted,
-          joined <tref>nquads</tref> through the
-          <tref>hash algorithm</tref>.</li>
+        <li>Sort <a>nquads</a> in lexicographical order.</li>
+        <li>Return the <a>hash</a> that results from passing the sorted,
+          joined <a>nquads</a> through the
+          <a>hash algorithm</a>.</li>
       </ol>
     </section>
   </section>
@@ -596,33 +615,29 @@ function updateExample(doc, content) {
     <section>
       <h3>Algorithm</h3>
 
-      <p>This algorithm creates a <tref>hash</tref> to identify how one
-        <tref>RDF blank node</tref> is related to another. It takes the
-        <tref>normalization state</tref>, a <i>related</i>
-        <tref>RDF blank node identifier</tref>, a <i>quad</i>, an
-        <tref>identifier issuer</tref>, <i>issuer</i>, and a
-        <tref>string</tref> <i>position</i> as inputs.</p>
-
-      <p class="issue">In URGNA2012, value of the <tref>RDF predicate</tref>
-        was not delimited by <code>&lt;</code> and <code>&gt;</code>; there
-        were no delimiters.</p>
+      <p>This algorithm creates a <a>hash</a> to identify how one
+        <a>blank node</a> is related to another. It takes the
+        <a>normalization state</a>, a <var>related</var>
+        <a>blank node identifier</a>, a <var>quad</var>, an
+        <a>identifier issuer</a>, <var>issuer</var>, and a
+        <a>string</a> <var>position</var> as inputs.</p>
 
       <ol class="algorithm">
-        <li>Set the <i>identifier</i> to use for <i>related</i>, preferring
-          first the canonical identifier for <i>related</i> if issued, second
-          the identifier issued by <i>issuer</i> if issued, and last, if
+        <li>Set the <var>identifier</var> to use for <var>related</var>, preferring
+          first the canonical identifier for <var>related</var> if issued, second
+          the identifier issued by <var>issuer</var> if issued, and last, if
           necessary, the result of the
           <a href="#hash-first-degree-quads">Hash First Degree Quads algorithm</a>,
-          passing <i>related</i>.
+          passing <var>related</var>.
         </li>
-        <li>Initialize a <tref>string</tref> <i>input</i> to the value of
-          <i>position</i>.</li>
-        <li>If <i>position</i> is not <code>g</code>, append
-          <code>&lt;</code>, the value of the <tref>RDF predicate</tref> in
-          <i>quad</i>, and <code>&gt;</code> to <i>input</i>.</li>
-        <li>Append <i>identifier</i> to <i>input</i>.</li>
-        <li>Return the <tref>hash</tref> that results from passing <i>input</i>
-          through the <tref>hash algorithm</tref>.</li>
+        <li>Initialize a <a>string</a> <var>input</var> to the value of
+          <var>position</var>.</li>
+        <li>If <var>position</var> is not <code>g</code>, append
+          <code>&lt;</code>, the value of the <a>predicate</a> in
+          <var>quad</var>, and <code>&gt;</code> to <var>input</var>.</li>
+        <li>Append <var>identifier</var> to <var>input</var>.</li>
+        <li>Return the <a>hash</a> that results from passing <var>input</var>
+          through the <a>hash algorithm</a>.</li>
       </ol>
     </section>
   </section>
@@ -630,11 +645,11 @@ function updateExample(doc, content) {
   <section>
     <h2>Hash N-Degree Quads</h2>
 
-    <p class="issue">The relationship and difference between this algorithm
+    <p class="ednote">The relationship and difference between this algorithm
       and the hash first degree quads algorithm should be better explained.
       There may also be better names for the two algorithms.</p>
 
-    <p class="issue">The 'path' terminology could also be changed to better
+    <p class="ednote">The 'path' terminology could also be changed to better
       indicate what a path is (a particular deterministic serialization for
       a subgraph/subdataset of nodes without globally-unique identifiers).</p>
 
@@ -656,12 +671,12 @@ function updateExample(doc, content) {
         draw a graph where, if you begin with a particular node, the graph
         will always be drawn the same way. If two graphs are drawn the same way
         with two different nodes, then the nodes are equivalent. A
-        <tref>hash</tref> is used to indicate a particular way that the graph
+        <a>hash</a> is used to indicate a particular way that the graph
         has been drawn and can be used to compare nodes.</p>
 
       <p>This algorithm works in concert with the main normalization algorithm
         to produce a unique, deterministic identifier for a particular blank
-        node. This <tref>hash</tref> incorporates all of the information that
+        node. This <a>hash</a> incorporates all of the information that
         is connected to the blank node as well as how it is connected. It does
         this by creating deterministic paths that emanate out from the blank
         node through any other adjacent blank nodes.</p>
@@ -670,162 +685,187 @@ function updateExample(doc, content) {
     <section>
       <h3>Algorithm</h3>
 
-      <p>The inputs to this algorithm are the <tref>normalization state</tref>,
-        the <i>identifier</i> for the <tref>RDF blank node</tref> to
-        recursively hash quads for, and path identifier <i>issuer</i> which is
-        an <tref>identifier issuer</tref> that issues temporary
-        <tref>RDF blank node identifier</tref>s. The output from this algorithm
-        will be a <tref>hash</tref> and the <tref>identifier issuer</tref> used
+      <p>The inputs to this algorithm are the <a>normalization state</a>,
+        the <var>identifier</var> for the <a>blank node</a> to
+        recursively hash quads for, and path identifier <var>issuer</var> which is
+        an <a>identifier issuer</a> that issues temporary
+        <a>blank node identifier</a>s. The output from this algorithm
+        will be a <a>hash</a> and the <a>identifier issuer</a> used
         to help generate it.</p>
 
-      <p class="issue">In URGNA2012, the <i>position</i> parameter passed to
-        the <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>
-        was instead modeled as a <i>direction</i> parameter, where it could have
-        the value <code>p</code>, for property, when the related blank node was a
-        `subject` and the value <code>r</code>, for reverse or reference, when
-        the related blank node was an `object`. Since URGNA2012 only normalized
-        graphs, not datasets, there was no use of the `graph` position.</p>
-
-      <div class="issue">In URGNA2012, building the
-        <i>hash to related blank nodes map</i> was done as follows:
-        <ol class="algorithm">
-          <li>For each <i>quad</i> in <i>quads</i>:
-            <ol class="algorithm">
-              <li>If the <i>quad</i>'s `subject` is a blank node that does not
-                match <i>identifier</i>, to the result of the
-                  <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>,
-                  passing the <tref>RDF blank node identifier</tref> for
-                  `subject` as <i>related</i>, <i>quad</i>,
-                  <i>path identifier issuer</i> as <i>issuer</i>, and
-                  <code>p</code> as <i>position</i>.
-              </li>
-              <li>Otherwise, if <i>quad</i>'s `object` is a blank node that does
-                not match <i>identifier</i>, to the result of the
-                  <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>,
-                  passing the <tref>RDF blank node identifier</tref> for
-                  `object` as <i>related</i>, <i>quad</i>,
-                  <i>path identifier issuer</i> as <i>issuer</i>, and
-                  <code>r</code> as <i>position</i>.
-              </li>
-              <li>Otherwise, continue to the next quad.</li>
-              <li>Add a mapping of <i>hash</i> to the
-                <tref>RDF blank node identifier</tref> for the component
-                that matched (`subject` or `object`) to
-                <i>hash to related blank nodes map</i>, adding an entry
-                as necessary.</li>
-            </ol>
-          </li>
-        </ol>
-      </div>
-
       <ol class="algorithm">
-        <li>Create a <i>hash to related blank nodes map</i> for storing
-          hashes that identify related <tref>RDF blank node</tref>s.</li>
-        <li>Get a reference, <i>quads</i>, to the list of <tref>RDF quad</tref>s
-          in the <tref>blank node to quads map</tref> for the key
-          <i>identifier</i>.</li>
-        <li>For each <i>quad</i> in <i>quads</i>:
+        <li>Create a <var>hash to related blank nodes map</var> for storing
+          hashes that identify related <a title="blank node">blank nodes</a>.</li>
+        <li>Get a reference, <var>quads</var>, to the list of <a title="quad">quads</a>
+          in the <a>blank node to quads map</a> for the key
+          <var>identifier</var>.</li>
+        <li>For each <var>quad</var> in <var>quads</var>:
           <ol class="algorithm">
-            <li>For each <i>component</i> in <i>quad</i>, if <i>component</i>
-              is the <tref>RDF subject</tref>, <tref>RDF object</tref>, and
-              <tref>RDF graph name</tref> and it is an
-              <tref>RDF blank node</tref> that is not identified by
-              <i>identifier</i>:
+            <li>For each <var>component</var> in <var>quad</var>, if <var>component</var>
+              is the <a>subject</a>, <a>object</a>, and
+              <a>graph name</a> and it is an
+              <a>blank node</a> that is not identified by
+              <var>identifier</var>:
               <ol class="algorithm">
-                <li>Set <i>hash</i> to the result of the
+                <li>Set <var>hash</var> to the result of the
                   <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>,
-                  passing the <tref>RDF blank node identifier</tref> for
-                  <i>component</i> as <i>related</i>, <i>quad</i>,
-                  <i>path identifier issuer</i> as <i>issuer</i>, and
-                  <i>position</i> as either <code>s</code>, <code>o</code>, or
-                  <code>g</code> based on whether <i>component</i> is an
-                  <tref>RDF subject</tref>, <tref>RDF object</tref>,
-                  <tref>RDF graph name</tref>, respectively.</li>
-                <li>Add a mapping of <i>hash</i> to the
-                  <tref>RDF blank node identifier</tref> for <i>component</i>
-                  to <i>hash to related blank nodes map</i>, adding an entry
+                  passing the <a>blank node identifier</a> for
+                  <var>component</var> as <var>related</var>, <var>quad</var>,
+                  <var>path identifier issuer</var> as <var>issuer</var>, and
+                  <var>position</var> as either <code>s</code>, <code>o</code>, or
+                  <code>g</code> based on whether <var>component</var> is an
+                  <a>subject</a>, <a>object</a>,
+                  <a>graph name</a>, respectively.</li>
+                <li>Add a mapping of <var>hash</var> to the
+                  <a>blank node identifier</a> for <var>component</var>
+                  to <var>hash to related blank nodes map</var>, adding an entry
                   as necessary.</li>
               </ol>
             </li>
           </ol>
         </li>
-        <li>Create an empty string, <i>data to hash</i>.</li>
-        <li>For each <i>related hash</i> to <i>blank node list</i> mapping in
-          <i>hash to related blank nodes map</i>, sorted lexicographically
-          by <i>related hash</i>:
+        <li>Create an empty string, <var>data to hash</var>.</li>
+        <li>For each <var>related hash</var> to <var>blank node list</var> mapping in
+          <var>hash to related blank nodes map</var>, sorted lexicographically
+          by <var>related hash</var>:
           <ol class="algorithm">
-            <li>Append the <i>related hash</i> to the <i>data to hash</i>.</li>
-            <li>Create a <tref>string</tref> <i>chosen path</i>.</li>
-            <li>Create an unset <i>chosen issuer</i> variable.</li>
-            <li>For each <i>permutation</i> of <i>blank node list</i>:
+            <li>Append the <var>related hash</var> to the <var>data to hash</var>.</li>
+            <li>Create a <a>string</a> <var>chosen path</var>.</li>
+            <li>Create an unset <var>chosen issuer</var> variable.</li>
+            <li>For each <var>permutation</var> of <var>blank node list</var>:
               <ol class="algorithm">
-                <li>Create a copy of <i>issuer</i>, <i>issuer copy</i>.</li>
-                <li>Create a <tref>string</tref> <i>path</i>.</li>
-                <li>Create a <i>recursion list</i>, to store
-                  <tref>RDF blank node identifier</tref>s that must be
+                <li>Create a copy of <var>issuer</var>, <var>issuer copy</var>.</li>
+                <li>Create a <a>string</a> <var>path</var>.</li>
+                <li>Create a <var>recursion list</var>, to store
+                  <a title="blank node identifier">blank node identifiers</a> that must be
                   recursively processed by this algorithm.</li>
-                <li>For each <i>related</i> in <i>permutation</i>:
+                <li>For each <var>related</var> in <var>permutation</var>:
                   <ol class="algorithm">
                     <li>If a canonical identifier has been issued for
-                      <i>related</i>, append it to <i>path</i>.</li>
+                      <var>related</var>, append it to <var>path</var>.</li>
                     <li>Otherwise:</li>
                       <ol class="algorithm">
                         <li>If <i>issuer copy</i> has not issued
-                          an identifier for <i>related</i>, append
-                          <i>related</i> to <i>recursion list</i>.</li>
+                          an identifier for <var>related</var>, append
+                          <var>related</var> to <var>recursion list</var>.</li>
                         <li>Use the
                           <a href="#issue-identifier">Issue Identifier algorithm</a>,
-                          passing <i>issuer copy</i> and <i>related</i> and
-                          append the result to <i>path</i>.</li>
+                          passing <var>issuer copy</var> and <var>related</var> and
+                          append the result to <var>path</var>.</li>
                       </ol>
                     </li>
-                    <li>If <i>chosen path</i> is not empty and the length
-                      of <i>path</i> is greater than or equal to the length
-                      of <i>chosen path</i> and <i>path</i> is lexicographically
-                      greater than <i>chosen path</i>, then skip to the next
-                      <i>permutation</i>.
+                    <li>If <var>chosen path</var> is not empty and the length
+                      of <var>path</var> is greater than or equal to the length
+                      of <var>chosen path</var> and <var>path</var> is lexicographically
+                      greater than <var>chosen path</var>, then skip to the next
+                      <var>permutation</var>.
                     </li>
                   </ol>
                 </li>
-                <li>For each <i>related</i> in <i>recursion list</i>:
+                <li>For each <var>related</var> in <var>recursion list</var>:
                   <ol class="algorithm">
-                    <li>Set <i>result</i> to the result of recursively executing
+                    <li>Set <var>result</var> to the result of recursively executing
                       the
                       <a href="#hash-n-degree-quads">Hash N-Degree Quads algorithm</a>,
-                      passing <i>related</i> for <i>identifier</i> and
-                      <i>issuer copy</i> for <i>path identifier issuer</i>.</li>
+                      passing <var>related</var> for <var>identifier</var> and
+                      <var>issuer copy</var> for <var>path identifier issuer</var>.</li>
                     <li>Use the
                       <a href="#issue-identifier">Issue Identifier algorithm</a>,
-                      passing <i>issuer copy</i> and <i>related</i> and
-                      append the result to <i>path</i>.</li>
-                    <li>Append <code>&lt;</code>, the <tref>hash</tref> in
-                      <i>result</i>, and <code>&gt;</code> to <i>path</i>.</li>
-                    <li>Set <i>issuer copy</i> to the
-                      <tref>identifier issuer</tref> in result.</li>
-                    <li>If <i>chosen path</i> is not empty and the length
-                      of <i>path</i> is greater than or equal to the length
-                      of <i>chosen path</i> and <i>path</i> is lexicographically
-                      greater than <i>chosen path</i>, then skip to the next
-                      <i>permutation</i>.</li>
+                      passing <var>issuer copy</var> and <var>related</var> and
+                      append the result to <var>path</var>.</li>
+                    <li>Append <code>&lt;</code>, the <a>hash</a> in
+                      <var>result</var>, and <code>&gt;</code> to <var>path</var>.</li>
+                    <li>Set <var>issuer copy</var> to the
+                      <a>identifier issuer</a> in result.</li>
+                    <li>If <var>chosen path</var> is not empty and the length
+                      of <var>path</var> is greater than or equal to the length
+                      of <var>chosen path</var> and <var>path</var> is lexicographically
+                      greater than <var>chosen path</var>, then skip to the next
+                      <var>permutation</var>.</li>
                   </ol>
                 </li>
-                <li>If <i>chosen path</i> is empty or <i>path</i> is
-                  lexicographically less than <i>chosen path</i>, set
-                  <i>chosen path</i> to <i>path</i> and <i>chosen issuer</i>
-                  to <i>issuer copy</i>.</li>
+                <li>If <var>chosen path</var> is empty or <var>path</var> is
+                  lexicographically less than <var>chosen path</var>, set
+                  <var>chosen path</var> to <var>path</var> and <var>chosen issuer</var>
+                  to <var>issuer copy</var>.</li>
               </ol>
             </li>
-            <li>Append <i>chosen path</i> to <i>data to hash</i>.</li>
-            <li>Replace <i>issuer</i>, by reference, with
-              <i>chosen issuer</i>.</li>
+            <li>Append <var>chosen path</var> to <var>data to hash</var>.</li>
+            <li>Replace <var>issuer</var>, by reference, with
+              <var>chosen issuer</var>.</li>
           </ol>
         </li>
-        <li>Return <i>issuer</i> and the <tref>hash</tref> that results from
-          passing <i>data to hash</i> through the
-          <tref>hash algorithm</tref>.</li>
+        <li>Return <var>issuer</var> and the <a>hash</a> that results from
+          passing <var>data to hash</var> through the
+          <a>hash algorithm</a>.</li>
       </ol>
     </section>
   </section>
+</section>
+
+<section>
+  <h2>Use Cases</h2>
+  <p class="ednote">TBD</p>
+</section>
+
+<section>
+  <h2>Examples</h2>
+  <p class="ednote">TBD</p>
+</section>
+
+<section class="appendix">
+  <h1>URGNA2012</h1>
+  <p>A previous version of this algorithm has light deployment. For purposes of identification,
+    the algorithm is called the
+    "Universal RDF Graph Normalization Algorithm 2012"
+    (<abbr title="Universal RDF Graph Normalization Algorithm 2012"><dfn>URGNA2012</dfn></abbr>),
+    and differs from the stated algorithm in the following ways:</p>
+  <ul>
+    <li>In <a href="#hash-first-degree-quads" class="sectionRef"></a>, if any blank node was used in the <a>graph name</a>
+      position in the <a>quad</a>, then the value was serialized using
+      the special <a>blank node identifier</a>, <code>_:g</code>, instead of <code>_:z</code>.</li>
+    <li>In <a href="#hash-related-blank-node" class="sectionRef"></a>, value of the <a>predicate</a>
+      was not delimited by <code>&lt;</code> and <code>&gt;</code>; there
+      were no delimiters.</li>
+    <li>In <a href="#hash-n-degree-quads" class="sectionRef"></a>, the <var>position</var> parameter passed to
+      the <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>
+      was instead modeled as a <var>direction</var> parameter, where it could have
+      the value <code>p</code>, for property, when the related blank node was a
+      <a>subject</a> and the value <code>r</code>, for reverse or reference, when
+      the related blank node was an <a>object</a>. Since URGNA2012 only normalized
+      graphs, not datasets, there was no use of the <a>graph name</a> position.</li>
+    <li>In <a href="#hash-n-degree-quads" class="sectionRef"></a>, building the
+      <var>hash to related blank nodes map</var> was done as follows:
+      <ol class="algorithm">
+        <li>For each <var>quad</var> in <var>quads</var>:
+          <ol class="algorithm">
+            <li>If the <var>quad</var>'s <a>subject</a> is a <a>blank node</a> that does not
+              match <var>identifier</var>, to the result of the
+                <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>,
+                passing the <a>blank node identifier</a> for
+                <a>subject</a> as <var>related</var>, <var>quad</var>,
+                <var>path identifier issuer</var> as <var>issuer</var>, and
+                <code>p</code> as <var>position</var>.
+            </li>
+            <li>Otherwise, if <var>quad</var>'s <a>object</a> is a <a>blank node</a> that does
+              not match <var>identifier</var>, to the result of the
+                <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>,
+                passing the <a>blank node identifier</a> for
+                <a>object</a> as <var>related</var>, <var>quad</var>,
+                <var>path identifier issuer</var> as <var>issuer</var>, and
+                <code>r</code> as <var>position</var>.
+            </li>
+            <li>Otherwise, continue to the next quad.</li>
+            <li>Add a mapping of <var>hash</var> to the
+              <a>blank node identifier</a> for the component
+              that matched (<a>subject</a> or <a>object</a>) to
+              <var>hash to related blank nodes map</var>, adding an entry
+              as necessary.</li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ul>
 </section>
 
 <section class="appendix">
