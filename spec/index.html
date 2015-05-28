@@ -73,6 +73,8 @@
       // Team Contact.
       wgPatentURI:  "",
       maxTocLevel: 2,
+      issueBase: "https://github.com/json-ld/normalization/issues/",
+      issueAPI:  "https://api.github.com/repos/json-ld/normalization/issues",
       otherLinks: [{
         key: "Repository",
         data: [{
@@ -87,6 +89,7 @@
   };
 //]]>
 </script>
+<script src="https://tobie.github.io/respec-gh-issues/respec-gh-issues.js" async class="remove"></script>
 <script class="remove">
 function updateExample(doc, content) {
   var utils = require("core/utils");
@@ -173,6 +176,7 @@ function updateExample(doc, content) {
     <strong>Universal RDF Dataset Normalization Algorithm 2015</strong> or
     <strong>URDNA2015</strong>.</p>
 
+  <div class="issue" data-number="2"></div>
   <section>
     <h2>Uses of Dataset Normalization</h2>
     <p>There are differernt use cases where graph or dataset normalization are important:</p>
