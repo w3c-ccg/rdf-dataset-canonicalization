@@ -34,8 +34,6 @@
       // if this is a LCWD, uncomment and set the end of its review period
       // lcEnd: "2009-08-05",
 
-      issueBase: "https://github.com/json-ld/normalization/issues/",
-
       // if you want to have extra CSS, append them to this list
       // it is recommended that the respec.css stylesheet be kept
       // extraCSS: [],
@@ -56,6 +54,9 @@
           { name: "Dave Longley", url: "http://digitalbazaar.com/",
             company: "Digital Bazaar", companyURL: "http://digitalbazaar.com/"}
       ],
+
+      issueBase: "https://github.com/json-ld/normalization/issues/",
+      githubAPI:  "https://api.github.com/repos/json-ld/normalization",
 
       // name of the WG
       wg: "Credentials W3C Community Group",
@@ -121,8 +122,8 @@ function updateExample(doc, content) {
     of information. At times, it becomes necessary to compare the differences
     between sets of graphs, digitally sign them, or generate short identifiers
     for graphs via hashing algorithms. This document outlines an algorithm for
-    normalizing <a title="rdf dataset">RDF datasets</a> such that these operations can be
-    performed.</p>
+    normalizing <a>RDF datasets</a> such that these operations can be
+    performed.</p>,
 </section>
 
 <section id="sotd">
@@ -150,12 +151,12 @@ function updateExample(doc, content) {
     verification.</p>
 
   <p>In particular, this specification is about normalizing
-    <a title="rdf dataset">RDF datasets</a>, which are collections of graphs. Since
+    <a>RDF datasets</a>, which are collections of graphs. Since
     a directed graph can express the same information in more than one
     way, it requires normalization to achieve the aforementioned goals
     and any others that may arise via surrendipity.</p>
 
-  <p>Most <a title="rdf dataset">RDF datasets</a> can be normalized fairly quickly, in terms
+  <p>Most <a>RDF datasets</a> can be normalized fairly quickly, in terms
     of algorithmic time complexity. However, those that contain nodes that do
     not have globally unique identifiers pose a greater challenge. Normalizing
     these datasets presents the <dfn>graph isomorphism</dfn> problem, a
@@ -172,6 +173,29 @@ function updateExample(doc, content) {
     algorithm is called the
     <strong>Universal RDF Dataset Normalization Algorithm 2015</strong> or
     <strong>URDNA2015</strong>.</p>
+
+  <div class="issue" data-number="2"></div>
+  <section>
+    <h2>Uses of Dataset Normalization</h2>
+    <p>There are differernt use cases where graph or dataset normalization are important:</p>
+    <ul>
+      <li>Determining if one serialization is isomorphic to another.</li>
+      <li>Digital signing of graphs (datasets) independent of serialization or format.</li>
+      <li>Comparing two graphs (datasets) to find differences.</li>
+      <li>Communicating change sets when remotely updating an <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-source" class="externalDFN">RDF source</a>.</li>
+    </ul>
+    <p>A normalization algorithm is necessary, but not necessarily sufficient, to handle many of these use cases. The use of <a>blank nodes</a> in RDF graphs and datasets has a long history and creates inevitable complexities. Blank nodes are used for different purposes:</p>
+    <ul>
+      <li>when a well known identifier for a node is not known, or the author of a document chooses not to unambigously name that node,</li>
+      <li>when a node is used to stitch together parts of a graph and the nodes themselves are not interesting (e.g., <a href="http://www.w3.org/TR/rdf11-mt/#rdf-collections" class="externalDFN">RDF Collections</a> in [[RDF-MT]]),</li>
+      <li>when someone is trying to create an intentionally difficult graph topology.</li>
+    </ul>
+    <p>Further more, RDF semantics dictate that deserializing the same RDF document results in the creation of unique <a>blank nodes</a>, unless it can be determined that on each ocasion, the <a>blank node identifiers</a> the same resource; this is due to the fact that <a>blank node identifiers</a> are an aspect of a concreate RDF syntax and are not intended to be persistent or portable. Within the abstract RDF model, blank nodes do not have identifiers (although some <a href="http://www.w3.org/TR/rdf-concepts/index.html#dfn-rdf-store" class="externalDFN">RDF store</a> implementations may use stable identifiers and choose to make them portable). See <cite><a href="http://www.w3.org/TR/rdf-concepts/index.html#section-blank-nodes">Blank Nodes</a></cite> in [[!RDF-CONCEPTS]] for more information.</p>
+    <p>RDF does have a provision for allowing blank nodes to be published in an externally identifiable way through the use of <a href="http://www.w3.org/TR/rdf-concepts/index.html#dfn-skolem-iri" class="externalDFN">Skolem IRIs</a>, which allows a given RDF store to replace the use of blank nodes in a concrete syntax with IRIs, which serve to repeatably identify that blank node within that particular RDF store, however, this is not generally useful for talking about the same graph in different RDF stores, or other concrete representations. In any case, a stable <a>blank node identifier</a> defined for one RDF store, serialization is arbitrary, and typically not relatable to the context within which it is used.</p>
+    <p>This specification defines an algorithm for creating stable <a>blank node identifiers</a> repeatably for different serializations possibly using individualized <a>blank node identifiers</a> of the same RDF graph (dataset) by grounding each <a>blank node</a> through the nodes to which it is connected, essentially creating <em>Skolem <a>blank node identifiers</a></em>. As a result, a graph signature can be obtained by hashing a canonical serialization of the resulting <a>normalized dataset</a>, allowing for the isomorphism and digital signing use cases. As blank node identifiers can be stable even with other changes to a graph (dataset), in some cases it is possible to compute the difference between two graphs (datasets), for example if changes are made only to ground triples, or if new blank nodes are introduced which do not create an automorphic confusion with other existing blank nodes. If any information which would change the generated blank node identifier, a resulting diff might indicate a greater set of changes than actually exists.</p>
+    <p class="ednote">TimBL has a <a href="http://www.w3.org/DesignIssues/Diff">design note</a> on problems with Diff which should be referenced.</p>
+    <p class="ednote">Jerremy Carroll has a <a href="http://www.hpl.hp.com/techreports/2003/HPL-2003-142.pdf">paper</a> on signing RDF graphs.</p>
+  </section>
 
   <section>
     <h2>How to Read this Document</h2>
@@ -233,45 +257,45 @@ function updateExample(doc, content) {
         A string is a sequence of zero or more Unicode characters.</dd>
       <dt><code>true</code> and <code>false</code></dt><dd>
         Values that are used to express one of two possible boolean states.</dd>
-      <dt><dfn><abbr title="Internationalized Resource Identifier"><dfn>IRI</dfn></abbr></dt>
+      <dt><dfn lt="internationalized resource identifier|iri|iris"><abbr title="Internationalized Resource Identifier">IRI</abbr></dt>
       <dd>An <a>IRI</a> (Internationalized Resource Identifier) is a string that conforms to the syntax
         defined in [[RFC3987]].</dd>
-      <dt><dfn>subject</dfn></dt>
+      <dt><dfn lt="subject|subjects">subject</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-subject" class="externalDFN">subject</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
-      <dt><dfn>predicate</dfn></dt>
+      <dt><dfn lt="predicate|predicates">predicate</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-predicate" class="externalDFN">predicate</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
-      <dt><dfn>object</dfn></dt>
+      <dt><dfn lt="object|objects">object</dfn></dt>
       <dd>An <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-object" class="externalDFN">object</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
-      <dt><dfn>RDF triple</dfn></dt>
+      <dt><dfn lt="rdf triple|rdf triples|triple|triples">RDF triple</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-triple" class="externalDFN">triple</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
-      <dt><dfn>RDF graph</dfn></dt>
+      <dt><dfn lt="rdf graph|rdf graphs|graph|graphs">RDF graph</dfn></dt>
       <dd>An <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-graph" class="externalDFN">RDF graph</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
-      <dt><dfn>graph name</dfn></dt>
+      <dt><dfn lt="graph name|graph names">graph name</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-graph-name" class="externalDFN">graph name</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
-      <dt><dfn>quad</dfn></dt>
+      <dt><dfn lt="quad|quads">quad</dfn></dt>
       <dd>A tuple composed of <a>subject</a>, <a>predicate</a>, <a>object</a>, and <a>graph name</a>.
         This is a generalization of an <a>RDF triple</a> along with a <a>graph name</a>.</dd>
-      <dt><dfn>RDF dataset</dfn></dt>
+      <dt><dfn lt="rdf dataset|rdf datasets|dataset|datasets">RDF dataset</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-dataset" class="externalDFN">dataset</a>
         as specified by [[!RDF11-CONCEPTS]].
         For the purposes of this specification, an <a>RDF dataset</a>
-        is considered to be a set of <a title="quad">quads</a></dd>
-      <dt><dfn>blank node</dfn></dt>
+        is considered to be a set of <a>quads</a></dd>
+      <dt><dfn lt="blank node|blank nodes">blank node</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-blank-node" class="externalDFN">blank node</a>
         as specified by [[!RDF11-CONCEPTS]]. In short, it is a node in a graph that is
         neither an <a>IRI</a>, nor a
         <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-literal" class="externalDFN">literal</a>.</dd>
-      <dt><dfn>blank node identifier</dfn></dt>
+      <dt><dfn lt="blank node identifier|blank node identifiers">blank node identifier</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-blank-node-identifier" class="externalDFN">blank node identifier</a>
         as specified by [[!RDF11-CONCEPTS]]. In short, it is a <a>string</a> that begins
         with <code>_:</code> that is used as an identifier for an
-        <a>blank node</a>. <a title="blank node identifier">Blank node identifiers</a>
+        <a>blank node</a>. <a>Blank node identifiers</a>
         are typically implementation-specific local identifiers; this document
         specifies an algorithm for deterministically specifying them.</dd>
     </dl>
@@ -283,7 +307,7 @@ function updateExample(doc, content) {
 
   <p>Normalization is the process of transforming an
     <a>input dataset</a> to a <a>normalized dataset</a>. That
-    is, any two <a title="input dataset">input datasets</a> that contain the same
+    is, any two <a>input datasets</a> that contain the same
     information, regardless of their arrangement, will be transformed into
     identical <a>normalized dataset</a>. The problem requires directed
     graphs to be deterministically ordered into sets of nodes and edges. This
@@ -291,7 +315,7 @@ function updateExample(doc, content) {
     can be difficult to do when some of the nodes do not. Any nodes without
     globally-unique identifiers must be issued deteriministic identifiers.</p>
 
-  <p class="ednote">Strictly speaking, the normalized dataset must be serialized to be stable, as within a dataset, blank node identifiers have no meaning.</p>
+  <p class="ednote">Strictly speaking, the normalized dataset must be serialized to be stable, as within a dataset, blank node identifiers have no meaning. This specification defines a <a>normalized dataset</a> to include stable identifiers for blank nodes, but practical uses of this will always generate a canonical serialization of such a dataset.</p>
 
   <p>In time, there may be more than one normalization algorithm and,
     therefore, for identification purposes, this algorithm is named the
@@ -309,9 +333,8 @@ function updateExample(doc, content) {
       <dd>The abstract <a>RDF dataset</a> that is provided as input to
         the algorithm.</dd>
       <dt><dfn>normalized dataset</dfn></dt>
-      <dd>The abstract <a>RDF dataset</a> and normalized
-        <a>blank node identifier</a> that are produced as output by
-        the algorithm.</dd>
+      <dd>The immutable, abstract <a>RDF dataset</a> and set of normalized
+        <a>blank node identifiers</a> that are produced as output by the algorithm. A <a>normalized dataset</a> is a restriction on an <a>RDF dataset</a> where all nodes are labeled, and <a>blank nodes</a> are labled with <a>blank node identifiers</a> consistent with running this algorithm on a base <a>RDF dataset</a>. A concrete serialization of an <a>normalized dataset</a> MUST label all <a>blank nodes</a> using these stable <a>blank node identifiers</a>.</dd>
       <dt><dfn>identifier issuer</dfn></dt>
       <dd>An identifier issuer is used to issue new <a>blank node identifier</a>. It
         maintains a
@@ -334,19 +357,19 @@ function updateExample(doc, content) {
     <dl>
       <dt><dfn>blank node to quads map</dfn></dt>
       <dd>A data structure that maps a <a>blank node identifier</a> to
-        the <a title="quad">quads</a> in which they appear in the
+        the <a>quads</a> in which they appear in the
         <a>input dataset</a>.</dd>
       <dt><dfn>hash to blank nodes map</dfn></dt>
       <dd>A data structure that maps a <a>hash</a> to a list of
-        <a title="blank node identifier">blank node identifiers</a>.</dd>
+        <a>blank node identifiers</a>.</dd>
       <dt><dfn>canonical issuer</dfn></dt>
       <dd>An <a>identifier issuer</a>, initialized with the
         prefix <code>_:c14n</code>, for issuing canonical
-        <a title="blank node identifier">blank node identifiers</a>.
+        <a>blank node identifiers</a>.
         <div class="issue">
-          Mapping all <a title="blank node">blank nodes</a> to use this
+          Mapping all <a>blank nodes</a> to use this
           identifier spec means that an <a>RDF dataset</a> composed of two
-          different <a title="rdf graph">RDF graphs</a> will use different
+          different <a>RDF graphs</a> will use different
           identifiers then that for the graphs taken independently. This may
           happen anyway, due to <a
           href="http://en.wikipedia.org/wiki/Automorphism">automorphisms</a>,
@@ -363,7 +386,7 @@ function updateExample(doc, content) {
     <h1>Blank Node Identifier Issuer State</h1>
 
     <p>During the normalization algorithm, it is sometimes necessary to
-      issue new identifiers to <a title="blank node">blank nodes</a>. The
+      issue new identifiers to <a>blank nodes</a>. The
       <a href="#issue-identifier-algorithm">Issue Identifier algorithm</a> uses an
       <a>identifier issuer</a> to accomplish this task. The information
       an <a>identifier issuer</a> needs to keep track of is described
@@ -378,7 +401,7 @@ function updateExample(doc, content) {
         is concatenated with a <a>identifier counter</a>. For example,
         <code>_:c14n</code> is a proper initial value for the
         <a>identifier prefix</a> that would produce
-        <a title="blank node identifier">blank node identifiers</a> like <code>_:c14n1</code>.</dd>
+        <a>blank node identifiers</a> like <code>_:c14n1</code>.</dd>
       <dt><dfn>identifier counter</dfn></dt>
       <dd>A counter that is appended to the <a>identifier prefix</a> to
         create an <a>blank node identifier</a>. It is initialized to
@@ -387,7 +410,7 @@ function updateExample(doc, content) {
       <dd>A list that tracks previously issued identifiers in the order in
         which they were issued. It also tracks the existing identifier that
         triggered the issuance, to prevent issuing more than one new identifier
-        per existing identifier, and to allow <a title="blank node">blank nodes</a> to
+        per existing identifier, and to allow <a>blank nodes</a> to
         be reassigned identifiers some time after issuance.</dd>
     </dl>
   </section>
@@ -397,7 +420,7 @@ function updateExample(doc, content) {
 
     <p>The normalization algorithm converts an <a>input dataset</a>
       into a <a>normalized dataset</a>. This algorithm will assign
-      deterministic identifiers to any <a title="blank node">blank nodes</a> in the
+      deterministic identifiers to any <a>blank nodes</a> in the
       <a>input dataset</a>.</p>
 
     <p class="ednote">Documenting the algorithm is a WIP, various steps will
@@ -420,16 +443,17 @@ function updateExample(doc, content) {
               <a>blank node identifier</a> in the
               <a>blank node to quads map</a>, creating a new entry if
               necessary.
+              <div class="issue">It seems that quads must be normalized, so that literals with different syntactic representations but the same semantic representations are merged, and that two graphs differening in the syntactic representation of a literal will produce the same set of blank node identifiers.</p>
             </li>
           </ol>
         </li>
-        <li>Create a list of non-normalized <a title="blank node identifier">blank node identifiers</a>
+        <li>Create a list of non-normalized <a>blank node identifiers</a>
           <var>non-normalized identifiers</var> and populate it using the keys
           from the <a>blank node to quads map</a>.</li>
         <li>Initialize <var>simple</var>, a boolean flag, to
           <code>true</code>.</li>
         <li>While <var>simple</var> is <code>true</code>,
-          issue canonical identifiers for <a title="blank node">blank nodes</a>:</li>
+          issue canonical identifiers for <a>blank nodes</a>:</li>
           <ol class="algorithm">
             <li>Set <var>simple</var> to <code>false</code>.</li>
             <li>Clear <a>hash to blank nodes map</a>.</li>
@@ -534,7 +558,7 @@ function updateExample(doc, content) {
     <p>This algorithm issues a new <a>blank node identifier</a> for
       a given existing <a>blank node identifier</a>. It also updates
       state information that tracks the order in which new
-      <a title="blank node identifier">blank node identifiers</a> were issued.</p>
+      <a>blank node identifiers</a> were issued.</p>
 
     <p>This algorithm takes an <a>identifier issuer</a> and an
       <var>existing identifier</var> as inputs. The output is a new
@@ -573,7 +597,7 @@ function updateExample(doc, content) {
       <ol class="algorithm">
         <li>Initialize <dfn>nquads</dfn> to an empty list. It will be
           used to store quads in N-Quads format.</li>
-        <li>Get the list of <a title="quad">quads</a> <var>quads</var> associated with the
+        <li>Get the list of <a>quads</a> <var>quads</var> associated with the
           <a>reference blank node identifier</a> in the
           <a>blank node to quads map</a>.</li>
         <li>For each <a>quad</a> <var>quad</var> in <var>quads</var>:
@@ -585,7 +609,7 @@ function updateExample(doc, content) {
                   <a>blank node</a>, then serialize it using a
                   special identifier as follows:
                   <ol class="algorithm">
-                    <li>If the <a title="blank node">blank node</a>'s existing
+                    <li>If the <a>blank node</a>'s existing
                     <a>blank node identifier</a> matches the
                     <a>reference blank node identifier</a> then use the
                     <a>blank node identifier</a> <code>_:a</code>,
@@ -594,6 +618,7 @@ function updateExample(doc, content) {
                   </ol>
                 </li>
               </ol>
+              <p class="issue">Note potential need to normalize literals to their canonical representation here as well, if not done on the original <a>input dataset</a>.</p>
             </li>
           </ol>
         </li>
@@ -695,8 +720,8 @@ function updateExample(doc, content) {
 
       <ol class="algorithm">
         <li>Create a <var>hash to related blank nodes map</var> for storing
-          hashes that identify related <a title="blank node">blank nodes</a>.</li>
-        <li>Get a reference, <var>quads</var>, to the list of <a title="quad">quads</a>
+          hashes that identify related <a>blank nodes</a>.</li>
+        <li>Get a reference, <var>quads</var>, to the list of <a>quads</a>
           in the <a>blank node to quads map</a> for the key
           <var>identifier</var>.</li>
         <li>For each <var>quad</var> in <var>quads</var>:
@@ -737,7 +762,7 @@ function updateExample(doc, content) {
                 <li>Create a copy of <var>issuer</var>, <var>issuer copy</var>.</li>
                 <li>Create a <a>string</a> <var>path</var>.</li>
                 <li>Create a <var>recursion list</var>, to store
-                  <a title="blank node identifier">blank node identifiers</a> that must be
+                  <a>blank node identifiers</a> that must be
                   recursively processed by this algorithm.</li>
                 <li>For each <var>related</var> in <var>permutation</var>:
                   <ol class="algorithm">
