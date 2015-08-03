@@ -138,7 +138,7 @@ function updateExample(doc, content) {
 </section>
 
 <section>
-  <h1>Introduction</h1>
+  <h2>Introduction</h2>
 
   <p>When data scientists discuss normalization, they do so in the context of
     achieving a particular set of goals. Since the same information may
@@ -247,7 +247,7 @@ function updateExample(doc, content) {
 <section id="conformance"></section>
 
 <section class="normative">
-  <h1>Terminology</h1>
+  <h2>Terminology</h2>
 
   <section class="normative">
     <h2>General Terminology</h2>
@@ -257,41 +257,41 @@ function updateExample(doc, content) {
         A string is a sequence of zero or more Unicode characters.</dd>
       <dt><code>true</code> and <code>false</code></dt><dd>
         Values that are used to express one of two possible boolean states.</dd>
-      <dt><dfn lt="internationalized resource identifier|iri|iris"><abbr title="Internationalized Resource Identifier">IRI</abbr></dt>
+      <dt><dfn data-lt="internationalized resource identifier|iri|iris"><abbr title="Internationalized Resource Identifier">IRI</abbr></dfn></dt>
       <dd>An <a>IRI</a> (Internationalized Resource Identifier) is a string that conforms to the syntax
         defined in [[RFC3987]].</dd>
-      <dt><dfn lt="subject|subjects">subject</dfn></dt>
+      <dt><dfn data-lt="subject|subjects">subject</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-subject" class="externalDFN">subject</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
-      <dt><dfn lt="predicate|predicates">predicate</dfn></dt>
+      <dt><dfn data-lt="predicate|predicates">predicate</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-predicate" class="externalDFN">predicate</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
-      <dt><dfn lt="object|objects">object</dfn></dt>
+      <dt><dfn data-lt="object|objects">object</dfn></dt>
       <dd>An <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-object" class="externalDFN">object</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
-      <dt><dfn lt="rdf triple|rdf triples|triple|triples">RDF triple</dfn></dt>
+      <dt><dfn data-lt="rdf triple|rdf triples|triple|triples">RDF triple</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-triple" class="externalDFN">triple</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
-      <dt><dfn lt="rdf graph|rdf graphs|graph|graphs">RDF graph</dfn></dt>
+      <dt><dfn data-lt="rdf graph|rdf graphs|graph|graphs">RDF graph</dfn></dt>
       <dd>An <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-graph" class="externalDFN">RDF graph</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
-      <dt><dfn lt="graph name|graph names">graph name</dfn></dt>
+      <dt><dfn data-lt="graph name|graph names">graph name</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-graph-name" class="externalDFN">graph name</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
-      <dt><dfn lt="quad|quads">quad</dfn></dt>
+      <dt><dfn data-lt="quad|quads">quad</dfn></dt>
       <dd>A tuple composed of <a>subject</a>, <a>predicate</a>, <a>object</a>, and <a>graph name</a>.
         This is a generalization of an <a>RDF triple</a> along with a <a>graph name</a>.</dd>
-      <dt><dfn lt="rdf dataset|rdf datasets|dataset|datasets">RDF dataset</dfn></dt>
+      <dt><dfn data-lt="rdf dataset|rdf datasets|dataset|datasets">RDF dataset</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-dataset" class="externalDFN">dataset</a>
         as specified by [[!RDF11-CONCEPTS]].
         For the purposes of this specification, an <a>RDF dataset</a>
         is considered to be a set of <a>quads</a></dd>
-      <dt><dfn lt="blank node|blank nodes">blank node</dfn></dt>
+      <dt><dfn data-lt="blank node|blank nodes">blank node</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-blank-node" class="externalDFN">blank node</a>
         as specified by [[!RDF11-CONCEPTS]]. In short, it is a node in a graph that is
         neither an <a>IRI</a>, nor a
         <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-literal" class="externalDFN">literal</a>.</dd>
-      <dt><dfn lt="blank node identifier|blank node identifiers">blank node identifier</dfn></dt>
+      <dt><dfn data-lt="blank node identifier|blank node identifiers">blank node identifier</dfn></dt>
       <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-blank-node-identifier" class="externalDFN">blank node identifier</a>
         as specified by [[!RDF11-CONCEPTS]]. In short, it is a <a>string</a> that begins
         with <code>_:</code> that is used as an identifier for an
@@ -303,7 +303,7 @@ function updateExample(doc, content) {
 </section>
 
 <section>
-  <h1>Normalization</h1>
+  <h2>Normalization</h2>
 
   <p>Normalization is the process of transforming an
     <a>input dataset</a> to a <a>normalized dataset</a>. That
@@ -327,9 +327,9 @@ function updateExample(doc, content) {
     behavior using normative statements. The explicit algorithms should follow as an informative appendix.</p>
 
   <section>
-    <h1>Normalization Algorithm Terms</h1>
+    <h2>Normalization Algorithm Terms</h2>
     <dl>
-      <dt><dfn lt="input dataset|input datasets">input dataset</dfn></dt>
+      <dt><dfn data-lt="input dataset|input datasets">input dataset</dfn></dt>
       <dd>The abstract <a>RDF dataset</a> that is provided as input to
         the algorithm.</dd>
       <dt><dfn>normalized dataset</dfn></dt>
@@ -347,7 +347,7 @@ function updateExample(doc, content) {
   </section>
 
   <section>
-    <h1>Normalization State</h1>
+    <h2>Normalization State</h2>
 
     <p>When performing the steps required by the normalization algorithm,
       it is helpful to track state in a data structure called the
@@ -383,7 +383,7 @@ function updateExample(doc, content) {
   </section>
 
   <section>
-    <h1>Blank Node Identifier Issuer State</h1>
+    <h2>Blank Node Identifier Issuer State</h2>
 
     <p>During the normalization algorithm, it is sometimes necessary to
       issue new identifiers to <a>blank nodes</a>. The
@@ -443,7 +443,7 @@ function updateExample(doc, content) {
               <a>blank node identifier</a> in the
               <a>blank node to quads map</a>, creating a new entry if
               necessary.
-              <div class="issue">It seems that quads must be normalized, so that literals with different syntactic representations but the same semantic representations are merged, and that two graphs differening in the syntactic representation of a literal will produce the same set of blank node identifiers.</p>
+              <div class="issue">It seems that quads must be normalized, so that literals with different syntactic representations but the same semantic representations are merged, and that two graphs differening in the syntactic representation of a literal will produce the same set of blank node identifiers.</div>
             </li>
           </ol>
         </li>
@@ -453,12 +453,12 @@ function updateExample(doc, content) {
         <li>Initialize <var>simple</var>, a boolean flag, to
           <code>true</code>.</li>
         <li>While <var>simple</var> is <code>true</code>,
-          issue canonical identifiers for <a>blank nodes</a>:</li>
+          issue canonical identifiers for <a>blank nodes</a>:
           <ol class="algorithm">
             <li>Set <var>simple</var> to <code>false</code>.</li>
             <li>Clear <a>hash to blank nodes map</a>.</li>
             <li>For each <a>blank node identifier</a>
-              <var>identifier</var> in <var>non-normalized identifiers</var>:</li>
+              <var>identifier</var> in <var>non-normalized identifiers</var>:
               <ol class="algorithm">
                 <li>Create a <a>hash</a>, <var>hash</var>, according to the
                   <a href="#hash-first-degree-quads">Hash First Degree Quads algorithm</a>.</li>
@@ -466,6 +466,7 @@ function updateExample(doc, content) {
                   <a>hash to blank nodes map</a>, creating a new entry if
                   necessary.</li>
               </ol>
+            </li>
             <li>For each <var>hash</var> to <var>identifier list</var> mapping in
               <a>hash to blank nodes map</a>, lexicographically-sorted by
               <var>hash</var>:
@@ -495,7 +496,7 @@ function updateExample(doc, content) {
               of running the
               <a href="#hash-n-degree-quads">Hash N-Degree Quads algorithm</a>.</li>
             <li>For each <a>blank node identifier</a>
-              <var>identifier</var> in <var>identifier list</var>:</li>
+              <var>identifier</var> in <var>identifier list</var>:
               <ol class="algorithm">
                 <li>If a canonical identifier has already been issued for
                   <var>identifier</var>, continue to the next
@@ -515,7 +516,7 @@ function updateExample(doc, content) {
               </ol>
             </li>
             <li>For each <var>result</var> in the <var>hash path list</var>,
-              lexicographically-sorted by the <var>hash</var> in <var>result</var>:</li>
+              lexicographically-sorted by the <var>hash</var> in <var>result</var>:
               <ol class="algorithm">
                 <li>For each <a>blank node identifier</a>,
                   <var>existing identifier</var>, that was issued a temporary
@@ -768,7 +769,7 @@ function updateExample(doc, content) {
                   <ol class="algorithm">
                     <li>If a canonical identifier has been issued for
                       <var>related</var>, append it to <var>path</var>.</li>
-                    <li>Otherwise:</li>
+                    <li>Otherwise:
                       <ol class="algorithm">
                         <li>If <i>issuer copy</i> has not issued
                           an identifier for <var>related</var>, append
@@ -839,7 +840,7 @@ function updateExample(doc, content) {
 </section>
 
 <section class="appendix">
-  <h1>URGNA2012</h1>
+  <h2>URGNA2012</h2>
   <p>A previous version of this algorithm has light deployment. For purposes of identification,
     the algorithm is called the
     "Universal RDF Graph Normalization Algorithm 2012"
@@ -894,7 +895,7 @@ function updateExample(doc, content) {
 </section>
 
 <section class="appendix">
-  <h1>Acknowledgements</h1>
+  <h2>Acknowledgements</h2>
 
   <p>The editors would like to thank Jeremy Carroll for his work on the
     graph normalization problem, Gavin Carothers for providing valuable
