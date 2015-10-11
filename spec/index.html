@@ -866,7 +866,7 @@ function updateExample(doc, content) {
         <li>For each <var>quad</var> in <var>quads</var>:
           <ol class="algorithm">
             <li>If the <var>quad</var>'s <a>subject</a> is a <a>blank node</a> that does not
-              match <var>identifier</var>, to the result of the
+              match <var>identifier</var>, set <var>hash</var> to the result of the
                 <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>,
                 passing the <a>blank node identifier</a> for
                 <a>subject</a> as <var>related</var>, <var>quad</var>,
@@ -874,7 +874,7 @@ function updateExample(doc, content) {
                 <code>p</code> as <var>position</var>.
             </li>
             <li>Otherwise, if <var>quad</var>'s <a>object</a> is a <a>blank node</a> that does
-              not match <var>identifier</var>, to the result of the
+              not match <var>identifier</var>, set <var>hash</var> to the result of the
                 <a href="#hash-related-blank-node">Hash Related Blank Node algorithm</a>,
                 passing the <a>blank node identifier</a> for
                 <a>object</a> as <var>related</var>, <var>quad</var>,
