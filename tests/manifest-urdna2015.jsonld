@@ -546,6 +546,15 @@
       "approval": "rdft:Proposed",
       "action": "test057-in.nq",
       "result": "test057-urdna2015.nq"
+    },
+    {
+      "id": "manifest-urdna2015#test058",
+      "type": "rdfn:Urdna2015EvalTest",
+      "name": "unnamed graph with blank node objects",
+      "comment": null,
+      "approval": "rdft:Proposed",
+      "action": "test058-in.nq",
+      "result": "test058-urdna2015.nq"
     }
   ]
 }
