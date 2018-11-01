@@ -57,3 +57,4 @@ test055,simple reorder (1),,,TRUE,TRUE
 test056,simple reorder (2),,,TRUE,TRUE
 test057,unnamed graph,,,FALSE,TRUE
 test058,unnamed graph with blank node objects,,,FALSE,TRUE
+test059,n-quads parsing,,,FALSE,TRUE

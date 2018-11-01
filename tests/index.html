@@ -54,19 +54,14 @@
     <h1 property='rdfs:label'>RDF Dataset Normalization Test Cases</h1>
     <p property='rdfs:comment'>Includes manifests for different application profiles.</p>
     <p>This page describes RDF Dataset Normalization tests for URGNA2012 and URDNA2015 profiles. These tests are also described in <a href="manifest.jsonld">JSON-LD</a> and <a href="manifest.ttl">Turtle</a> formats for convenience. The manifest vocabulary is described in the <a href="vocab.html">RDF Dataset Normalization Test Vocabulary</a> (<a href="vocab.jsonld">JSON-LD</a>, <a href="vocab.ttl">Turtle</a>) and is based on the <a href="http://www.w3.org/TR/2014/NOTE-rdf11-testcases-20140225/">RDF Test Vocabulary</a>.</p>
-    
     <h2 id="general-instructions-for-running-the-rdf-dataset-normalization-test-suites">General instructions for running the RDF Dataset Normalization Test suites</h2>
     <p>FIXME</p>
-    
     <h2 id="contributing-tests">Contributing Tests</h2>
-    <p>The test manifests and entries are built automatically from <a href="manifest.csv">manifest.csv</a> using <a href="mk_manifest.rb">mk_manifest.rb</a>, where each row defines a combination of RDF, JSON and Validation tests for the same <em>action</em> and implicit files. Tests may be contributed via pull request to <a href="https://github.com/json-ld/normalization">https://github.com/json-ld/normalization</a> with suitable changes to the <a href="manifest.csv">manifest.csv</a> and necessary <em>action</em> and <em>result</em> files. Tests will also be considered if a contribution is sent to <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#112;&#117;&#098;&#108;&#105;&#099;&#045;&#099;&#114;&#101;&#100;&#101;&#110;&#116;&#105;&#097;&#108;&#115;&#064;&#119;&#051;&#046;&#111;&#114;&#103;">&#112;&#117;&#098;&#108;&#105;&#099;&#045;&#099;&#114;&#101;&#100;&#101;&#110;&#116;&#105;&#097;&#108;&#115;&#064;&#119;&#051;&#046;&#111;&#114;&#103;</a>.</p>
-    
+    <p>The test manifests and entries are built automatically from <a href="manifest.csv" class="uri">manifest.csv</a> using <a href="mk_manifest.rb" class="uri">mk_manifest.rb</a>, where each row defines a combination of RDF, JSON and Validation tests for the same <em>action</em> and implicit files. Tests may be contributed via pull request to <a href="https://github.com/json-ld/normalization" class="uri">https://github.com/json-ld/normalization</a> with suitable changes to the <a href="manifest.csv" class="uri">manifest.csv</a> and necessary <em>action</em> and <em>result</em> files. Tests will also be considered if a contribution is sent to <a href="mailto:public-credentials@w3.org">public-credentials@w3.org</a>.</p>
     <h2 id="distribution">Distribution</h2>
     <p>Distributed under both the <a href="http://www.w3.org/Consortium/Legal/2008/04-testsuite-license">W3C Test Suite License</a> and the <a href="http://www.w3.org/Consortium/Legal/2008/03-bsd-license">W3C 3-clause BSD License</a>. To contribute to a W3C Test Suite, see the <a href="http://www.w3.org/2004/10/27-testcases">policies and contribution forms</a>.</p>
-    
     <h2 id="disclaimer">Disclaimer</h2>
-    <p>UNDER BOTH MUTUALLY EXCLUSIVE LICENSES, THIS DOCUMENT AND ALL DOCUMENTS, TESTS AND SOFTWARE THAT LINK THIS STATEMENT ARE PROVIDED "AS IS," AND COPYRIGHT HOLDERS MAKE NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR TITLE; THAT THE CONTENTS OF THE DOCUMENT ARE SUITABLE FOR ANY PURPOSE; NOR THAT THE IMPLEMENTATION OF SUCH CONTENTS WILL NOT INFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
-      COPYRIGHT HOLDERS WILL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF ANY USE OF THE DOCUMENT OR THE PERFORMANCE OR IMPLEMENTATION OF THE CONTENTS THEREOF.</p>
+    <p>UNDER BOTH MUTUALLY EXCLUSIVE LICENSES, THIS DOCUMENT AND ALL DOCUMENTS, TESTS AND SOFTWARE THAT LINK THIS STATEMENT ARE PROVIDED “AS IS,” AND COPYRIGHT HOLDERS MAKE NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR TITLE; THAT THE CONTENTS OF THE DOCUMENT ARE SUITABLE FOR ANY PURPOSE; NOR THAT THE IMPLEMENTATION OF SUCH CONTENTS WILL NOT INFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS. COPYRIGHT HOLDERS WILL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF ANY USE OF THE DOCUMENT OR THE PERFORMANCE OR IMPLEMENTATION OF THE CONTENTS THEREOF.</p>
     <section class='contents'>
       <h2>Contents</h2>
       <ol>
@@ -76,7 +71,7 @@
         </li>
         <li>
           <a href='#manifest-urdna2015'>RDF Dataset Normalization (URDNA2015)</a>
-          – 58 entries
+          – 59 entries
         </li>
       </ol>
     </section>
@@ -1490,7 +1485,7 @@
       </dl>
     </section>
     <section id='manifest-urdna2015' inlist property='mf:entry' resource='manifest-urdna2015' typeof='mf:Manifest'>
-      <h2>RDF Dataset Normalization (URDNA2015) (58 entries)</h2>
+      <h2>RDF Dataset Normalization (URDNA2015) (59 entries)</h2>
       <p property='rdfs:comment'>Tests the 2015 version of RDF Dataset Normalization.</p>
       <p>
       </p>
@@ -2942,6 +2937,31 @@
             <dt>result</dt>
             <dd>
               <a href='test058-urdna2015.nq' property='mf:result'>test058-urdna2015.nq</a>
+            </dd>
+          </dl>
+        </dd>
+        <dt id='manifest-urdna2015#test059'>
+          <a class='testlink' href='#manifest-urdna2015#test059'>
+            manifest-urdna2015#test059:
+          </a>
+          <span about='manifest-urdna2015#test059' property='mf:name'>n-quads parsing</span>
+        </dt>
+        <dd inlist property='mf:entry' resource='manifest-urdna2015#test059' typeof='rdfn:Urdna2015EvalTest'>
+          <div property='rdfs:comment'>
+            
+          </div>
+          <dl class='test-detail'>
+            <dt>type</dt>
+            <dd>rdfn:Urdna2015EvalTest</dd>
+            <dt>approval</dt>
+            <dd property='mf:approval' resource='rdft:Proposed'>rdft:Proposed</dd>
+            <dt>action</dt>
+            <dd>
+              <a href='test059-in.nq' property='mf:action'>test059-in.nq</a>
+            </dd>
+            <dt>result</dt>
+            <dd>
+              <a href='test059-urdna2015.nq' property='mf:result'>test059-urdna2015.nq</a>
             </dd>
           </dl>
         </dd>
