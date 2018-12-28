@@ -154,7 +154,7 @@ function updateExample(doc, content) {
     <a>RDF datasets</a>, which are collections of graphs. Since
     a directed graph can express the same information in more than one
     way, it requires normalization to achieve the aforementioned goals
-    and any others that may arise via surrendipity.</p>
+    and any others that may arise via serendipity.</p>
 
   <p>Most <a>RDF datasets</a> can be normalized fairly quickly, in terms
     of algorithmic time complexity. However, those that contain nodes that do
@@ -177,7 +177,7 @@ function updateExample(doc, content) {
   <div class="issue" data-number="2"></div>
   <section>
     <h2>Uses of Dataset Normalization</h2>
-    <p>There are differernt use cases where graph or dataset normalization are important:</p>
+    <p>There are different use cases where graph or dataset normalization are important:</p>
     <ul>
       <li>Determining if one serialization is isomorphic to another.</li>
       <li>Digital signing of graphs (datasets) independent of serialization or format.</li>
@@ -186,11 +186,11 @@ function updateExample(doc, content) {
     </ul>
     <p>A normalization algorithm is necessary, but not necessarily sufficient, to handle many of these use cases. The use of <a>blank nodes</a> in RDF graphs and datasets has a long history and creates inevitable complexities. Blank nodes are used for different purposes:</p>
     <ul>
-      <li>when a well known identifier for a node is not known, or the author of a document chooses not to unambigously name that node,</li>
+      <li>when a well known identifier for a node is not known, or the author of a document chooses not to unambiguously name that node,</li>
       <li>when a node is used to stitch together parts of a graph and the nodes themselves are not interesting (e.g., <a href="http://www.w3.org/TR/rdf11-mt/#rdf-collections" class="externalDFN">RDF Collections</a> in [[RDF-MT]]),</li>
       <li>when someone is trying to create an intentionally difficult graph topology.</li>
     </ul>
-    <p>Further more, RDF semantics dictate that deserializing the same RDF document results in the creation of unique <a>blank nodes</a>, unless it can be determined that on each ocasion, the <a>blank node identifiers</a> the same resource; this is due to the fact that <a>blank node identifiers</a> are an aspect of a concreate RDF syntax and are not intended to be persistent or portable. Within the abstract RDF model, blank nodes do not have identifiers (although some <a href="http://www.w3.org/TR/rdf-concepts/index.html#dfn-rdf-store" class="externalDFN">RDF store</a> implementations may use stable identifiers and choose to make them portable). See <cite><a href="http://www.w3.org/TR/rdf-concepts/index.html#section-blank-nodes">Blank Nodes</a></cite> in [[!RDF-CONCEPTS]] for more information.</p>
+    <p>Further more, RDF semantics dictate that deserializing the same RDF document results in the creation of unique <a>blank nodes</a>, unless it can be determined that on each occasion, the <a>blank node identifiers</a> the same resource; this is due to the fact that <a>blank node identifiers</a> are an aspect of a concreate RDF syntax and are not intended to be persistent or portable. Within the abstract RDF model, blank nodes do not have identifiers (although some <a href="http://www.w3.org/TR/rdf-concepts/index.html#dfn-rdf-store" class="externalDFN">RDF store</a> implementations may use stable identifiers and choose to make them portable). See <cite><a href="http://www.w3.org/TR/rdf-concepts/index.html#section-blank-nodes">Blank Nodes</a></cite> in [[!RDF-CONCEPTS]] for more information.</p>
     <p>RDF does have a provision for allowing blank nodes to be published in an externally identifiable way through the use of <a href="http://www.w3.org/TR/rdf-concepts/index.html#dfn-skolem-iri" class="externalDFN">Skolem IRIs</a>, which allows a given RDF store to replace the use of blank nodes in a concrete syntax with IRIs, which serve to repeatably identify that blank node within that particular RDF store, however, this is not generally useful for talking about the same graph in different RDF stores, or other concrete representations. In any case, a stable <a>blank node identifier</a> defined for one RDF store, serialization is arbitrary, and typically not relatable to the context within which it is used.</p>
     <p>This specification defines an algorithm for creating stable <a>blank node identifiers</a> repeatably for different serializations possibly using individualized <a>blank node identifiers</a> of the same RDF graph (dataset) by grounding each <a>blank node</a> through the nodes to which it is connected, essentially creating <em>Skolem <a>blank node identifiers</a></em>. As a result, a graph signature can be obtained by hashing a canonical serialization of the resulting <a>normalized dataset</a>, allowing for the isomorphism and digital signing use cases. As blank node identifiers can be stable even with other changes to a graph (dataset), in some cases it is possible to compute the difference between two graphs (datasets), for example if changes are made only to ground triples, or if new blank nodes are introduced which do not create an automorphic confusion with other existing blank nodes. If any information which would change the generated blank node identifier, a resulting diff might indicate a greater set of changes than actually exists.</p>
     <p class="ednote">TimBL has a <a href="http://www.w3.org/DesignIssues/Diff">design note</a> on problems with Diff which should be referenced.</p>
@@ -312,7 +312,7 @@ function updateExample(doc, content) {
     graphs to be deterministically ordered into sets of nodes and edges. This
     is easy to do when all of the nodes have globally-unique identifiers, but
     can be difficult to do when some of the nodes do not. Any nodes without
-    globally-unique identifiers must be issued deteriministic identifiers.</p>
+    globally-unique identifiers must be issued deterministic identifiers.</p>
 
   <p class="ednote">Strictly speaking, the normalized dataset must be serialized to be stable, as within a dataset, blank node identifiers have no meaning. This specification defines a <a>normalized dataset</a> to include stable identifiers for blank nodes, but practical uses of this will always generate a canonical serialization of such a dataset.</p>
 
@@ -333,7 +333,7 @@ function updateExample(doc, content) {
         the algorithm.</dd>
       <dt><dfn>normalized dataset</dfn></dt>
       <dd>The immutable, abstract <a>RDF dataset</a> and set of normalized
-        <a>blank node identifiers</a> that are produced as output by the algorithm. A <a>normalized dataset</a> is a restriction on an <a>RDF dataset</a> where all nodes are labeled, and <a>blank nodes</a> are labled with <a>blank node identifiers</a> consistent with running this algorithm on a base <a>RDF dataset</a>. A concrete serialization of an <a>normalized dataset</a> MUST label all <a>blank nodes</a> using these stable <a>blank node identifiers</a>.</dd>
+        <a>blank node identifiers</a> that are produced as output by the algorithm. A <a>normalized dataset</a> is a restriction on an <a>RDF dataset</a> where all nodes are labeled, and <a>blank nodes</a> are labeled with <a>blank node identifiers</a> consistent with running this algorithm on a base <a>RDF dataset</a>. A concrete serialization of an <a>normalized dataset</a> MUST label all <a>blank nodes</a> using these stable <a>blank node identifiers</a>.</dd>
       <dt><dfn>identifier issuer</dfn></dt>
       <dd>An identifier issuer is used to issue new <a>blank node identifier</a>. It
         maintains a
@@ -442,7 +442,7 @@ function updateExample(doc, content) {
               <a>blank node identifier</a> in the
               <a>blank node to quads map</a>, creating a new entry if
               necessary.
-              <div class="issue">It seems that quads must be normalized, so that literals with different syntactic representations but the same semantic representations are merged, and that two graphs differening in the syntactic representation of a literal will produce the same set of blank node identifiers.</div>
+              <div class="issue">It seems that quads must be normalized, so that literals with different syntactic representations but the same semantic representations are merged, and that two graphs differing in the syntactic representation of a literal will produce the same set of blank node identifiers.</div>
             </li>
           </ol>
         </li>
@@ -692,7 +692,7 @@ function updateExample(doc, content) {
         first node is drawn in the center of the page. If you can draw the
         graph a second time such that it looks just like the first, except
         the second node is in the center of the page, then the nodes are
-        equivalent. This algorithm essentially defines a determinitsic way to
+        equivalent. This algorithm essentially defines a deterministic way to
         draw a graph where, if you begin with a particular node, the graph
         will always be drawn the same way. If two graphs are drawn the same way
         with two different nodes, then the nodes are equivalent. A
