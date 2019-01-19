@@ -537,6 +537,15 @@
       "approval": "rdft:Proposed",
       "action": "test056-in.nq",
       "result": "test056-urgna2012.nq"
+    },
+    {
+      "id": "manifest-urgna2012#test060",
+      "type": "rdfn:Urgna2012EvalTest",
+      "name": "n-quads escaping",
+      "comment": null,
+      "approval": "rdft:Proposed",
+      "action": "test060-in.nq",
+      "result": "test060-urgna2012.nq"
     }
   ]
 }
