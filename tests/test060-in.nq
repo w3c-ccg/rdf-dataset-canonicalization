@@ -13,3 +13,5 @@
 <urn:ex:s> <urn:ex:012> "\"\"" .
 <urn:ex:s> <urn:ex:013> "\\\\\\" .
 <urn:ex:s> <urn:ex:014> "\"\"\"" .
+<urn:ex:s> <urn:ex:015> "\u221e" .
+<urn:ex:s> <urn:ex:016> "∞" .
