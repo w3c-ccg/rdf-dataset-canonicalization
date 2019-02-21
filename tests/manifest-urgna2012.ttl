@@ -28,7 +28,7 @@
     :test021 :test022 :test023 :test024 :test025 :test026 :test027 :test028 :test029 :test030
     :test031 :test032 :test033 :test034 :test035 :test036 :test037 :test038 :test039 :test040
     :test041 :test042 :test043 :test044 :test045 :test046 :test047 :test048 :test049 :test050
-    :test051 :test052 :test053 :test054 :test055 :test056 :test060
+    :test051 :test052 :test053 :test054 :test055 :test056 :test060 :test061 :test062
   ) .
 
 :test001 a rdfn:Urgna2012EvalTest;
@@ -428,4 +428,18 @@
   rdft:approval rdft:Proposed;
   mf:action <test060-in.nq>;
   mf:result <test060-urgna2012.nq>;
+  .
+
+:test061 a rdfn:Urgna2012EvalTest;
+  mf:name "same literal value with multiple languages";
+  rdft:approval rdft:Proposed;
+  mf:action <test061-in.nq>;
+  mf:result <test061-urgna2012.nq>;
+  .
+
+:test062 a rdfn:Urgna2012EvalTest;
+  mf:name "same literal value with multiple datatypes";
+  rdft:approval rdft:Proposed;
+  mf:action <test062-in.nq>;
+  mf:result <test062-urgna2012.nq>;
   .

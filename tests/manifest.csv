@@ -59,3 +59,5 @@ test057,unnamed graph,,,FALSE,TRUE
 test058,unnamed graph with blank node objects,,,FALSE,TRUE
 test059,n-quads parsing,,,FALSE,TRUE
 test060,n-quads escaping,,,TRUE,TRUE
+test061,same literal value with multiple languages,,,TRUE,TRUE
+test062,same literal value with multiple datatypes,,,TRUE,TRUE
