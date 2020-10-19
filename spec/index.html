@@ -710,6 +710,16 @@ function updateExample(doc, content) {
     <section>
       <h3>Algorithm</h3>
 
+      <div class="issue">
+        An additional input to this algorithm should be added that
+        allows it to be optionally skipped and throw an error if any
+        equivalent related hashes were produced that must be permuted
+        during step 5.4.4. For practical uses of the algorithm, this step
+        should never be encountered and could be turned off, disabling
+        canonizing datasets that include a need to run it as a security
+        measure.
+      </div>
+
       <p>The inputs to this algorithm are the <a>normalization state</a>,
         the <var>identifier</var> for the <a>blank node</a> to
         recursively hash quads for, and path identifier <var>issuer</var> which is
