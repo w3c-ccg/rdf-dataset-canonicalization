@@ -581,15 +581,15 @@ function updateExample(doc, content) {
   <section>
     <h2>Hash First Degree Quads</h2>
 
-    <p class="ednote">Add note that it is safe to cache the result of
-      hashing the quads for later reuse (to reduce unnecessary computation).
-      This is only true because there was a typo in the spec that has now
-      been implemented by many implementations. The design of the algorithm
-      was to use the assigned canonical blank node identifier, if available,
-      instead of <code>_:a</code> or <code>_:z</code>, similar to how it is
-      used in the related hash algorith, but this text never made it into
-      the spec before implementations moved forward. Therefore, the hashes
-      here never change, making the loop based no the <code>simple</code>
+    <p class="ednote">Add note that the result of this algorithm for a
+      particular blank node will always be the same. This is only true
+      because there was a typo in the spec that has now been implemented
+      by many implementations. The design of the algorithm was to use the
+      assigned canonical blank node identifier, if available, instead of
+      <code>_:a</code> or <code>_:z</code>, similar to how it is used in
+      the related hash algorith, but this text never made it into the spec
+      before implementations moved forward. Therefore, the hashes here
+      never change, making the loop based no the <code>simple</code>
       flag that calls this algorithm unnecessary. A future version of
       this algorithm should correct this mistake.
       </p>
