@@ -425,6 +425,15 @@ function updateExample(doc, content) {
     <p class="ednote">Documenting the algorithm is a WIP, various steps will
       become more detailed in time.</p>
 
+    <p class="ednote">See the note for the hash first degree quads
+      algorithm. We should either remove the loop based on
+      <code>simple</code> here but indicate that the original design
+      of the algorithm was to have such a loop, or leave it but
+      inform implementers that it is safe to break after one iteration
+      of the loop (again, indicating why). A future version of this
+      algorithm should make the loop effectual.
+    </p>
+
     <section class="informative">
       <h3>Overview</h3>
     </section>
@@ -587,7 +596,7 @@ function updateExample(doc, content) {
       by many implementations. The design of the algorithm was to use the
       assigned canonical blank node identifier, if available, instead of
       <code>_:a</code> or <code>_:z</code>, similar to how it is used in
-      the related hash algorith, but this text never made it into the spec
+      the related hash algorithm, but this text never made it into the spec
       before implementations moved forward. Therefore, the hashes here
       never change, making the loop based on the <code>simple</code>
       flag that calls this algorithm unnecessary; it needs to only run
