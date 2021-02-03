@@ -8,7 +8,7 @@
 * However, when publishing the documents, all those references must be exchanged against the final, /TR
 * URI-s. That process, when done manually, is boring and error prone. This script solves the issue:
 *
-* * Create a separate file with the 'conversions' array. See, e.g., https://github.com/json-ld/normalization/blob/gh-pages/local-biblio.js
+* * Create a separate file with the 'conversions' array. See, e.g., https://github.com/json-ld/normalization/blob/main/local-biblio.js
 *   for an example.
 * * Include a reference to that file and this to the respec code, after the inclusion of respec. E.g.:
 * ```
