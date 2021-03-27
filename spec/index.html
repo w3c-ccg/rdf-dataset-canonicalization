@@ -3,7 +3,7 @@
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="content-type" />
 <meta content="width=device-width,initial-scale=1" name="viewport" />
-<title>RDF Dataset Normalization</title>
+<title>RDF Dataset Canonicalization</title>
 <script class="remove" src="https://www.w3.org/Tools/respec/respec-w3c-common"></script>
 <script class="remove" src="../replace-ed-uris.js"></script>
 <script class="remove">
@@ -16,8 +16,8 @@
       copyrightStart:       "2010",
 
       // the specification's short name, as in http://www.w3.org/TR/short-name/
-      shortName:            "rdf-dataset-normalization",
-      subtitle:             "A Standard RDF Dataset Normalization Algorithm",
+      shortName:            "rdf-dataset-canonicalization",
+      subtitle:             "A Standard RDF Dataset Canonicalization Algorithm",
       // if you wish the publication date to be other than today, set this
       // publishDate:  "2009-08-06",
 
@@ -29,7 +29,7 @@
       //diffTool:             "http://www.aptest.com/standards/htmldiff/htmldiff.pl",
 
       // if there a publicly available Editor's Draft, this is the link
-      edDraftURI:           "https://json-ld.github.io/normalization/spec/",
+      edDraftURI:           "https://json-ld.github.io/canonicalization/spec/",
 
       // if this is a LCWD, uncomment and set the end of its review period
       // lcEnd: "2009-08-05",
@@ -55,8 +55,8 @@
             company: "Digital Bazaar", companyURL: "https://digitalbazaar.com/"}
       ],
 
-      issueBase: "https://github.com/json-ld/normalization/issues/",
-      githubAPI:  "https://api.github.com/repos/json-ld/normalization",
+      issueBase: "https://github.com/json-ld/canonicalization/issues/",
+      githubAPI:  "https://api.github.com/repos/json-ld/canonicalization",
 
       // name of the WG
       wg: "Credentials W3C Community Group",
@@ -78,10 +78,10 @@
         key: "Repository",
         data: [{
             value: "We are on GitHub",
-            href: "https://github.com/json-ld/normalization"
+            href: "https://github.com/json-ld/canonicalization"
         }, {
             value: "File a bug",
-            href: "https://github.com/json-ld/normalization/issues"
+            href: "https://github.com/json-ld/canonicalization/issues"
         }]
       }]
       //alternateFormats: [ {uri: "diff-20110817.html", label: "diff to previous version"} ]
@@ -140,7 +140,7 @@ function updateExample(doc, content) {
 <section>
   <h2>Introduction</h2>
 
-  <p>When data scientists discuss normalization, they do so in the context of
+  <p>When data scientists discuss canonicalization, they do so in the context of
     achieving a particular set of goals. Since the same information may
     sometimes be expressed in a variety of different ways, it often becomes
     necessary to be able to transform each of these different ways into a
@@ -153,7 +153,7 @@ function updateExample(doc, content) {
   <p>In particular, this specification is about normalizing
     <a>RDF datasets</a>, which are collections of graphs. Since
     a directed graph can express the same information in more than one
-    way, it requires normalization to achieve the aforementioned goals
+    way, it requires canonicalization to achieve the aforementioned goals
     and any others that may arise via serendipity.</p>
 
   <p>Most <a>RDF datasets</a> can be normalized fairly quickly, in terms
@@ -171,20 +171,20 @@ function updateExample(doc, content) {
   <p>This document outlines an algorithm for generating a normalized
     <a>RDF dataset</a> given an <a>RDF dataset</a> as input. The
     algorithm is called the
-    <strong>Universal RDF Dataset Normalization Algorithm 2015</strong> or
+    <strong>Universal RDF Dataset Canonicalization Algorithm 2015</strong> or
     <strong>URDNA2015</strong>.</p>
 
   <div class="issue" data-number="2"></div>
   <section>
-    <h2>Uses of Dataset Normalization</h2>
-    <p>There are different use cases where graph or dataset normalization are important:</p>
+    <h2>Uses of Dataset Canonicalization</h2>
+    <p>There are different use cases where graph or dataset canonicalization are important:</p>
     <ul>
       <li>Determining if one serialization is isomorphic to another.</li>
       <li>Digital signing of graphs (datasets) independent of serialization or format.</li>
       <li>Comparing two graphs (datasets) to find differences.</li>
       <li>Communicating change sets when remotely updating an <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-source" class="externalDFN">RDF source</a>.</li>
     </ul>
-    <p>A normalization algorithm is necessary, but not necessarily sufficient, to handle many of these use cases. The use of <a>blank nodes</a> in RDF graphs and datasets has a long history and creates inevitable complexities. Blank nodes are used for different purposes:</p>
+    <p>A canonicalization algorithm is necessary, but not necessarily sufficient, to handle many of these use cases. The use of <a>blank nodes</a> in RDF graphs and datasets has a long history and creates inevitable complexities. Blank nodes are used for different purposes:</p>
     <ul>
       <li>when a well known identifier for a node is not known, or the author of a document chooses not to unambiguously name that node,</li>
       <li>when a node is used to stitch together parts of a graph and the nodes themselves are not interesting (e.g., <a href="http://www.w3.org/TR/rdf11-mt/#rdf-collections" class="externalDFN">RDF Collections</a> in [[RDF-MT]]),</li>
@@ -201,12 +201,12 @@ function updateExample(doc, content) {
     <h2>How to Read this Document</h2>
 
     <p>This document is a detailed specification for an <a>RDF dataset</a>
-      normalization algorithm. The document is primarily intended for the
+      canonicalization algorithm. The document is primarily intended for the
       following audiences:</p>
 
     <ul>
       <li>Software developers that want to implement an <a>RDF dataset</a>
-        normalization algorithm.</li>
+        canonicalization algorithm.</li>
       <li>Masochists.</li>
     </ul>
 
@@ -231,9 +231,9 @@ function updateExample(doc, content) {
         held on Tuesdays at 1600UTC every week of each month.</li>
 
       <li>Specification bugs and issues should be reported in the
-        <a href="https://github.com/json-ld/normalization/issues">issue tracker</a>.</li>
+        <a href="https://github.com/json-ld/canonicalization/issues">issue tracker</a>.</li>
 
-      <li><a href="https://github.com/json-ld/normalization/tree/main/spec">Source code</a> for the
+      <li><a href="https://github.com/json-ld/canonicalization/tree/main/spec">Source code</a> for the
         specification can be found on GitHub.</li>
 
       <li>The <a href="https://webchat.freenode.net/?channels=#credentials">#credentials</a>
@@ -302,9 +302,9 @@ function updateExample(doc, content) {
 </section>
 
 <section>
-  <h2>Normalization</h2>
+  <h2>Canonicalization</h2>
 
-  <p>Normalization is the process of transforming an
+  <p>Canonicalization is the process of transforming an
     <a>input dataset</a> to a <a>normalized dataset</a>. That
     is, any two <a>input datasets</a> that contain the same
     information, regardless of their arrangement, will be transformed into
@@ -316,17 +316,17 @@ function updateExample(doc, content) {
 
   <p class="ednote">Strictly speaking, the normalized dataset must be serialized to be stable, as within a dataset, blank node identifiers have no meaning. This specification defines a <a>normalized dataset</a> to include stable identifiers for blank nodes, but practical uses of this will always generate a canonical serialization of such a dataset.</p>
 
-  <p>In time, there may be more than one normalization algorithm and,
+  <p>In time, there may be more than one canonicalization algorithm and,
     therefore, for identification purposes, this algorithm is named the
-    "Universal RDF Dataset Normalization Algorithm 2015"
-    (<abbr title="Universal RDF Dataset Normalization Algorithm 2015"><dfn>URDNA2015</dfn></abbr>).</p>
+    "Universal RDF Dataset Canonicalization Algorithm 2015"
+    (<abbr title="Universal RDF Dataset Canonicalization Algorithm 2015"><dfn>URDNA2015</dfn></abbr>).</p>
 
   <p class="ednote">This statement is overly prescriptive and does not include normative language.
-    This spec should describe the theoretical basis for graph normalization and describe
+    This spec should describe the theoretical basis for graph canonicalization and describe
     behavior using normative statements. The explicit algorithms should follow as an informative appendix.</p>
 
   <section>
-    <h2>Normalization Algorithm Terms</h2>
+    <h2>Canonicalization Algorithm Terms</h2>
     <dl>
       <dt><dfn data-lt="input dataset|input datasets">input dataset</dfn></dt>
       <dd>The abstract <a>RDF dataset</a> that is provided as input to
@@ -346,12 +346,12 @@ function updateExample(doc, content) {
   </section>
 
   <section>
-    <h2>Normalization State</h2>
+    <h2>Canonicalization State</h2>
 
-    <p>When performing the steps required by the normalization algorithm,
+    <p>When performing the steps required by the canonicalization algorithm,
       it is helpful to track state in a data structure called the
-      <dfn>normalization state</dfn>. The information contained in the
-      <a>normalization state</a> is described below.</p>
+      <dfn>canonicalization state</dfn>. The information contained in the
+      <a>canonicalization state</a> is described below.</p>
 
     <dl>
       <dt><dfn>blank node to quads map</dfn></dt>
@@ -384,7 +384,7 @@ function updateExample(doc, content) {
   <section>
     <h2>Blank Node Identifier Issuer State</h2>
 
-    <p>During the normalization algorithm, it is sometimes necessary to
+    <p>During the canonicalization algorithm, it is sometimes necessary to
       issue new identifiers to <a>blank nodes</a>. The
       <a href="#issue-identifier-algorithm">Issue Identifier algorithm</a> uses an
       <a>identifier issuer</a> to accomplish this task. The information
@@ -395,7 +395,7 @@ function updateExample(doc, content) {
       <dt><dfn>identifier prefix</dfn></dt>
       <dd>The identifier prefix is a string that is used at the beginning of an
         <a>blank node identifier</a>. It should be initialized to a
-        string that is specified by the normalization algorithm. When
+        string that is specified by the canonicalization algorithm. When
         generating a new <a>blank node identifier</a>, the prefix
         is concatenated with a <a>identifier counter</a>. For example,
         <code>_:c14n</code> is a proper initial value for the
@@ -415,9 +415,9 @@ function updateExample(doc, content) {
   </section>
 
   <section>
-    <h2>Normalization Algorithm</h2>
+    <h2>Canonicalization Algorithm</h2>
 
-    <p>The normalization algorithm converts an <a>input dataset</a>
+    <p>The canonicalization algorithm converts an <a>input dataset</a>
       into a <a>normalized dataset</a>. This algorithm will assign
       deterministic identifiers to any <a>blank nodes</a> in the
       <a>input dataset</a>.</p>
@@ -442,7 +442,7 @@ function updateExample(doc, content) {
       <h3>Algorithm</h3>
 
       <ol class="algorithm">
-        <li>Create the <a>normalization state</a>.</li>
+        <li>Create the <a>canonicalization state</a>.</li>
         <li>For every <a>quad</a> in <a>input dataset</a>:
           <ol class="algorithm">
             <li>For each <a>blank node</a> that occurs in the
@@ -610,7 +610,7 @@ function updateExample(doc, content) {
     <section>
       <h3>Algorithm</h3>
 
-      <p>This algorithm takes the <a>normalization state</a> and a
+      <p>This algorithm takes the <a>canonicalization state</a> and a
         <dfn>reference blank node identifier</dfn> as inputs.</p>
 
       <ol class="algorithm">
@@ -661,7 +661,7 @@ function updateExample(doc, content) {
 
       <p>This algorithm creates a <a>hash</a> to identify how one
         <a>blank node</a> is related to another. It takes the
-        <a>normalization state</a>, a <var>related</var>
+        <a>canonicalization state</a>, a <var>related</var>
         <a>blank node identifier</a>, a <var>quad</var>, an
         <a>identifier issuer</a>, <var>issuer</var>, and a
         <a>string</a> <var>position</var> as inputs.</p>
@@ -718,7 +718,7 @@ function updateExample(doc, content) {
         <a>hash</a> is used to indicate a particular way that the graph
         has been drawn and can be used to compare nodes.</p>
 
-      <p>This algorithm works in concert with the main normalization algorithm
+      <p>This algorithm works in concert with the main canonicalization algorithm
         to produce a unique, deterministic identifier for a particular blank
         node. This <a>hash</a> incorporates all of the information that
         is connected to the blank node as well as how it is connected. It does
@@ -739,7 +739,7 @@ function updateExample(doc, content) {
         measure.
       </div>
 
-      <p>The inputs to this algorithm are the <a>normalization state</a>,
+      <p>The inputs to this algorithm are the <a>canonicalization state</a>,
         the <var>identifier</var> for the <a>blank node</a> to
         recursively hash quads for, and path identifier <var>issuer</var> which is
         an <a>identifier issuer</a> that issues temporary
@@ -871,8 +871,8 @@ function updateExample(doc, content) {
   <h2>URGNA2012</h2>
   <p>A previous version of this algorithm has light deployment. For purposes of identification,
     the algorithm is called the
-    "Universal RDF Graph Normalization Algorithm 2012"
-    (<abbr title="Universal RDF Graph Normalization Algorithm 2012"><dfn>URGNA2012</dfn></abbr>),
+    "Universal RDF Graph Canonicalization Algorithm 2012"
+    (<abbr title="Universal RDF Graph Canonicalization Algorithm 2012"><dfn>URGNA2012</dfn></abbr>),
     and differs from the stated algorithm in the following ways:</p>
   <ul>
     <li>In <a href="#hash-first-degree-quads" class="sectionRef"></a>, if any blank node was used in the <a>graph name</a>
@@ -926,9 +926,9 @@ function updateExample(doc, content) {
   <h2>Acknowledgements</h2>
 
   <p>The editors would like to thank Jeremy Carroll for his work on the
-    graph normalization problem, Gavin Carothers for providing valuable
+    graph canonicalization problem, Gavin Carothers for providing valuable
     feedback and testing input for the algorithm defined in this
-    specification, Sir Tim Berners Lee for his thoughts on graph normalization
+    specification, Sir Tim Berners Lee for his thoughts on graph canonicalization
     over the years, Jesús Arias Fisteus for his work on a similar
     algorithm.</p>
 </section>
