@@ -1,0 +1,22 @@
+# This workflow validates the document for markup and examples.
+name: CI
+
+on:
+  push:
+    branches: [ '**' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+    name: Build and Validate Spec
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: ReSpec Checker
+      uses: w3c/spec-prod@v2
+      with:
+        TOOLCHAIN: respec
+        SOURCE: index.html
+        VALIDATE_LINKS: false
+        VALIDATE_MARKUP: true
