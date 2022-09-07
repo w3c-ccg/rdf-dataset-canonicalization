@@ -1,4 +1,4 @@
-## RDF Dataset Normalization tests
+## RDF Dataset Canonicalization tests
 ## Distributed under both the W3C Test Suite License[1] and the W3C 3-
 ## clause BSD License[2]. To contribute to a W3C Test Suite, see the
 ## policies and contribution forms [3]
@@ -9,7 +9,7 @@
 ##
 ## Test types
 ## * rdfn:Urgna2012EvalTest  - Normalization using URGNA2012
-## * rdfn:Urdna2015EvalTest  - Normalization using URDNA2015
+## * rdfn:Urdna2015EvalTest  - Canonicalization using URDNA2015
 
 @prefix : <manifest-urdna2015#> .
 @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -20,8 +20,8 @@
 
 <manifest-urdna2015>  a mf:Manifest ;
 
-  rdfs:label "RDF Dataset Normalization (URDNA2015)";
-  rdfs:comment "Tests the 2015 version of RDF Dataset Normalization.";
+  rdfs:label "RDF Dataset Canonicalization (URDNA2015)";
+  rdfs:comment "Tests the 2015 version of RDF Dataset Canonicalization.";
   mf:entries (
     :test001 :test002 :test003 :test004 :test005 :test006 :test007 :test008 :test009 :test010
     :test011 :test012 :test013 :test014 :test015 :test016 :test017 :test018 :test019 :test020
