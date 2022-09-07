@@ -4,12 +4,12 @@
 <meta content="text/html; charset=utf-8" http-equiv="content-type" />
 <meta content="width=device-width,initial-scale=1" name="viewport" />
 <title>RDF Dataset Canonicalization</title>
-<script class="remove" src="https://www.w3.org/Tools/respec/respec-w3c-common"></script>
+<script class="remove" src="https://www.w3.org/Tools/respec/respec-w3c"></script>
 <script class="remove" src="../replace-ed-uris.js"></script>
 <script class="remove">
 //<![CDATA[
   var respecConfig = {
-      doRDFa: "1.1",
+      doJsonLd: true,
       // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
       specStatus:           "CG-DRAFT",
       //publishDate:          "2010-04-29",
@@ -30,6 +30,11 @@
 
       // if there a publicly available Editor's Draft, this is the link
       edDraftURI:           "https://json-ld.github.io/rdf-dataset-canonicalization/spec/",
+
+      github: {
+        repoURL: "https://github.com/json-ld/rdf-dataset-canonicalization/",
+          branch: "main"
+      },
 
       // if this is a LCWD, uncomment and set the end of its review period
       // lcEnd: "2009-08-05",
@@ -55,36 +60,16 @@
             company: "Digital Bazaar", companyURL: "https://digitalbazaar.com/"}
       ],
 
-      issueBase: "https://github.com/json-ld/rdf-dataset-canonicalization/issues/",
-      githubAPI:  "https://api.github.com/repos/json-ld/canonicalization",
-
-      // name of the WG
-      wg: "Credentials W3C Community Group",
+      // name of the 
+      group: "credentials",
 
       // URI of the public WG page
       wgURI: "https://www.w3.org/community/credentials/",
 
       // name (with the @w3c.org) of the public mailing to which comments are due
-      wgPublicList: "public-credentials",
-
-      // URI of the patent status for this WG, for Rec-track documents
-      // !!!! IMPORTANT !!!!
-      // This is important for Rec-track documents, do not copy a patent URI from a random
-      // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
-      // Team Contact.
-      wgPatentURI:  "",
-      maxTocLevel: 2,
-      otherLinks: [{
-        key: "Repository",
-        data: [{
-            value: "We are on GitHub",
-            href: "https://github.com/json-ld/rdf-dataset-canonicalization"
-        }, {
-            value: "File a bug",
-            href: "https://github.com/json-ld/rdf-dataset-canonicalization/issues"
-        }]
-      }]
-      //alternateFormats: [ {uri: "diff-20110817.html", label: "diff to previous version"} ]
+      wgPublicList: "public-credentials-wg@w3.org",
+      wgPatentURI:  "https://www.w3.org/Consortium/Patent-Policy-20200915/",
+      maxTocLevel: 2
   };
 //]]>
 </script>
@@ -172,7 +157,7 @@ function updateExample(doc, content) {
     <a>RDF dataset</a> given an <a>RDF dataset</a> as input. The
     algorithm is called the
     <strong>Universal RDF Dataset Canonicalization Algorithm 2015</strong> or
-    <strong>URDNA2015</strong>.</p>
+    <a>URDNA2015</a>.</p>
 
   <div class="issue" data-number="2"></div>
   <section>
@@ -182,16 +167,16 @@ function updateExample(doc, content) {
       <li>Determining if one serialization is isomorphic to another.</li>
       <li>Digital signing of graphs (datasets) independent of serialization or format.</li>
       <li>Comparing two graphs (datasets) to find differences.</li>
-      <li>Communicating change sets when remotely updating an <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-source" class="externalDFN">RDF source</a>.</li>
+      <li>Communicating change sets when remotely updating an <a data-cite="RDF11-CONCEPTS#dfn-rdf-source">RDF source</a>.</li>
     </ul>
     <p>A canonicalization algorithm is necessary, but not necessarily sufficient, to handle many of these use cases. The use of <a>blank nodes</a> in RDF graphs and datasets has a long history and creates inevitable complexities. Blank nodes are used for different purposes:</p>
     <ul>
       <li>when a well known identifier for a node is not known, or the author of a document chooses not to unambiguously name that node,</li>
-      <li>when a node is used to stitch together parts of a graph and the nodes themselves are not interesting (e.g., <a href="http://www.w3.org/TR/rdf11-mt/#rdf-collections" class="externalDFN">RDF Collections</a> in [[RDF-MT]]),</li>
+      <li>when a node is used to stitch together parts of a graph and the nodes themselves are not interesting (e.g., <a data-cite="RDF11-MT#rdf-collections">RDF Collections</a> in [[RDF-MT]]),</li>
       <li>when someone is trying to create an intentionally difficult graph topology.</li>
     </ul>
-    <p>Further more, RDF semantics dictate that deserializing the same RDF document results in the creation of unique <a>blank nodes</a>, unless it can be determined that on each occasion, the <a>blank node identifiers</a> the same resource; this is due to the fact that <a>blank node identifiers</a> are an aspect of a concrete RDF syntax and are not intended to be persistent or portable. Within the abstract RDF model, blank nodes do not have identifiers (although some <a href="http://www.w3.org/TR/rdf-concepts/index.html#dfn-rdf-store" class="externalDFN">RDF store</a> implementations may use stable identifiers and choose to make them portable). See <cite><a href="http://www.w3.org/TR/rdf-concepts/index.html#section-blank-nodes">Blank Nodes</a></cite> in [[!RDF-CONCEPTS]] for more information.</p>
-    <p>RDF does have a provision for allowing blank nodes to be published in an externally identifiable way through the use of <a href="http://www.w3.org/TR/rdf-concepts/index.html#dfn-skolem-iri" class="externalDFN">Skolem IRIs</a>, which allows a given RDF store to replace the use of blank nodes in a concrete syntax with IRIs, which serve to repeatably identify that blank node within that particular RDF store, however, this is not generally useful for talking about the same graph in different RDF stores, or other concrete representations. In any case, a stable <a>blank node identifier</a> defined for one RDF store, serialization is arbitrary, and typically not relatable to the context within which it is used.</p>
+    <p>Further more, RDF semantics dictate that deserializing the same RDF document results in the creation of unique <a>blank nodes</a>, unless it can be determined that on each occasion, the <a>blank node identifiers</a> the same resource; this is due to the fact that <a>blank node identifiers</a> are an aspect of a concrete RDF syntax and are not intended to be persistent or portable. Within the abstract RDF model, blank nodes do not have identifiers (although some <a data-cite="RDF11-CONCEPTS#dfn-rdf-store">RDF store</a> implementations may use stable identifiers and choose to make them portable). See <cite><a data-cite="RDF11-CONCEPTS#section-blank-nodes">Blank Nodes</a></cite> in [[!RDF-CONCEPTS]] for more information.</p>
+    <p>RDF does have a provision for allowing blank nodes to be published in an externally identifiable way through the use of <a data-cite="RDF11-CONCEPTS#dfn-skolem-iri">Skolem IRIs</a>, which allows a given RDF store to replace the use of blank nodes in a concrete syntax with IRIs, which serve to repeatably identify that blank node within that particular RDF store, however, this is not generally useful for talking about the same graph in different RDF stores, or other concrete representations. In any case, a stable <a>blank node identifier</a> defined for one RDF store, serialization is arbitrary, and typically not relatable to the context within which it is used.</p>
     <p>This specification defines an algorithm for creating stable <a>blank node identifiers</a> repeatably for different serializations possibly using individualized <a>blank node identifiers</a> of the same RDF graph (dataset) by grounding each <a>blank node</a> through the nodes to which it is connected, essentially creating <em>Skolem <a>blank node identifiers</a></em>. As a result, a graph signature can be obtained by hashing a canonical serialization of the resulting <a>normalized dataset</a>, allowing for the isomorphism and digital signing use cases. As blank node identifiers can be stable even with other changes to a graph (dataset), in some cases it is possible to compute the difference between two graphs (datasets), for example if changes are made only to ground triples, or if new blank nodes are introduced which do not create an automorphic confusion with other existing blank nodes. If any information which would change the generated blank node identifier, a resulting diff might indicate a greater set of changes than actually exists.</p>
     <p class="ednote">TimBL has a <a href="http://www.w3.org/DesignIssues/Diff">design note</a> on problems with Diff which should be referenced.</p>
     <p class="ednote">Jerremy Carroll has a <a href="http://www.hpl.hp.com/techreports/2003/HPL-2003-142.pdf">paper</a> on signing RDF graphs.</p>
@@ -260,38 +245,38 @@ function updateExample(doc, content) {
       <dd>An <a>IRI</a> (Internationalized Resource Identifier) is a string that conforms to the syntax
         defined in [[RFC3987]].</dd>
       <dt><dfn data-lt="subject|subjects">subject</dfn></dt>
-      <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-subject" class="externalDFN">subject</a>
+      <dd>A <a data-cite="RDF11-CONCEPTS#dfn-subject">subject</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
       <dt><dfn data-lt="predicate|predicates">predicate</dfn></dt>
-      <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-predicate" class="externalDFN">predicate</a>
+      <dd>A <a data-cite="RDF11-CONCEPTS#dfn-predicate">predicate</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
       <dt><dfn data-lt="object|objects">object</dfn></dt>
-      <dd>An <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-object" class="externalDFN">object</a>
+      <dd>An <a data-cite="RDF11-CONCEPTS#dfn-object">object</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
       <dt><dfn data-lt="rdf triple|rdf triples|triple|triples">RDF triple</dfn></dt>
-      <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-triple" class="externalDFN">triple</a>
+      <dd>A <a data-cite="RDF11-CONCEPTS#dfn-triple">triple</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
       <dt><dfn data-lt="rdf graph|rdf graphs|graph|graphs">RDF graph</dfn></dt>
-      <dd>An <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-graph" class="externalDFN">RDF graph</a>
+      <dd>An <a data-cite="RDF11-CONCEPTS#dfn-rdf-graph">RDF graph</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
       <dt><dfn data-lt="graph name|graph names">graph name</dfn></dt>
-      <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-graph-name" class="externalDFN">graph name</a>
+      <dd>A <a data-cite="RDF11-CONCEPTS#dfn-graph-name">graph name</a>
         as specified by [[!RDF11-CONCEPTS]].</dd>
       <dt><dfn data-lt="quad|quads">quad</dfn></dt>
       <dd>A tuple composed of <a>subject</a>, <a>predicate</a>, <a>object</a>, and <a>graph name</a>.
         This is a generalization of an <a>RDF triple</a> along with a <a>graph name</a>.</dd>
       <dt><dfn data-lt="rdf dataset|rdf datasets|dataset|datasets">RDF dataset</dfn></dt>
-      <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-dataset" class="externalDFN">dataset</a>
+      <dd>A <a data-cite="RDF11-CONCEPTS#dfn-rdf-dataset">dataset</a>
         as specified by [[!RDF11-CONCEPTS]].
         For the purposes of this specification, an <a>RDF dataset</a>
         is considered to be a set of <a>quads</a></dd>
       <dt><dfn data-lt="blank node|blank nodes">blank node</dfn></dt>
-      <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-blank-node" class="externalDFN">blank node</a>
+      <dd>A <a data-cite="RDF11-CONCEPTS#dfn-blank-node">blank node</a>
         as specified by [[!RDF11-CONCEPTS]]. In short, it is a node in a graph that is
         neither an <a>IRI</a>, nor a
-        <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-literal" class="externalDFN">literal</a>.</dd>
+        <a data-cite="RDF11-CONCEPTS#dfn-literal">literal</a>.</dd>
       <dt><dfn data-lt="blank node identifier|blank node identifiers">blank node identifier</dfn></dt>
-      <dd>A <a href="http://www.w3.org/TR/rdf11-concepts/#dfn-blank-node-identifier" class="externalDFN">blank node identifier</a>
+      <dd>A <a data-cite="RDF11-CONCEPTS#dfn-blank-node-identifier">blank node identifier</a>
         as specified by [[!RDF11-CONCEPTS]]. In short, it is a <a>string</a> that begins
         with <code>_:</code> that is used as an identifier for an
         <a>blank node</a>. <a>Blank node identifiers</a>
@@ -341,7 +326,7 @@ function updateExample(doc, content) {
       <dt><dfn>hash</dfn></dt>
       <dd>The lowercase, hexadecimal representation of a message digest.</dd>
       <dt><dfn>hash algorithm</dfn></dt>
-      <dd>The hash algorithm used by URDNA2015, namely, SHA-256.</dd>
+      <dd>The hash algorithm used by <a>URDNA2015</a>, namely, SHA-256.</dd>
     </dl>
   </section>
 
@@ -386,7 +371,7 @@ function updateExample(doc, content) {
 
     <p>During the canonicalization algorithm, it is sometimes necessary to
       issue new identifiers to <a>blank nodes</a>. The
-      <a href="#issue-identifier-algorithm">Issue Identifier algorithm</a> uses an
+      <a href="#issue-identifier">Issue Identifier algorithm</a> uses an
       <a>identifier issuer</a> to accomplish this task. The information
       an <a>identifier issuer</a> needs to keep track of is described
       below.</p>
@@ -553,7 +538,7 @@ function updateExample(doc, content) {
     </section>
   </section>
 
-  <section>
+  <section id="issue-identifier">
     <h2>Issue Identifier Algorithm</h2>
 
     <section class="informative">
@@ -704,7 +689,7 @@ function updateExample(doc, content) {
         equivalent, you simply compare their identifiers. However, what if the
         nodes don't have identifiers? Then you must determine if the two nodes
         have equivalent connections to equivalent nodes all throughout the
-        whole graph. This is called the graph isomorphism problem. This
+        whole graph. This is called the <a>graph isomorphism</a> problem. This
         algorithm approaches this problem by considering how one might draw
         a graph on paper. You can test to see if two nodes are equivalent
         by drawing the graph twice. The first time you draw the graph the
@@ -886,7 +871,7 @@ function updateExample(doc, content) {
       was instead modeled as a <var>direction</var> parameter, where it could have
       the value <code>p</code>, for property, when the related blank node was a
       <a>subject</a> and the value <code>r</code>, for reverse or reference, when
-      the related blank node was an <a>object</a>. Since URGNA2012 only normalized
+      the related blank node was an <a>object</a>. Since <a>URGNA2012</a> only normalized
       graphs, not datasets, there was no use of the <a>graph name</a> position.</li>
     <li>In <a href="#hash-n-degree-quads" class="sectionRef"></a>, building the
       <var>hash to related blank nodes map</var> was done as follows:
